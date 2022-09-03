@@ -1,0 +1,282 @@
+/* Home */
+#bfw_showcase {
+	width: 1710px;
+	background: #ffffff url(images/home/showcase_04_cutout.jpg) center left no-repeat;
+}
+	.dropShadow {
+		width: 710px;
+		-moz-border-radius: 12px;
+		-webkit-border-radius: 12px;
+	}
+#bfw_featured_titles {
+
+}
+	#bfw_featured_titles a {
+		color: #216335;
+		text-decoration: none;
+	}
+	#bfw_featured_titles .bfw_left_col,
+	#bfw_featured_titles .bfw_right_col {
+		float: left;
+		width: 134px;
+		height: 260px;
+		border-left: 1px solid #dddddd;
+	}
+	#bfw_featured_titles .bfw_left_col {
+/*		background: url(images/home/featured_titles_right_col_bg.gif) top right repeat-y;*/
+	}
+	#bfw_featured_titles .bfw_right_col {
+/*		background: url(images/home/featured_titles_right_col_bg.gif) top left repeat-y;*/
+	}
+		#bfw_featured_titles .bfw_left_col .bfw_padding,
+		#bfw_featured_titles .bfw_right_col .bfw_padding {
+			padding: 20px 0 0 20px;
+		}
+		#bfw_featured_titles .bfw_left_col img,
+		#bfw_featured_titles .bfw_right_col img {
+			/*border: 3px solid #e4e4e4;*/
+		}
+		#bfw_featured_titles .bfw_left_col small.bfw_author,
+		#bfw_featured_titles .bfw_right_col small.bfw_author {
+			color: #777777;
+		}
+		#bfw_featured_titles .bfw_left_col p,
+		#bfw_featured_titles .bfw_right_col p {
+			color: #006699;
+			text-align: left;
+			margin-bottom: 5px;
+		}
+		#bfw_featured_titles span.bfw_new {
+			color: #21c3d2;
+			font-weight: bold;
+		}
+	#bfw_featured_titles .bfw_center_col {
+		float: left;
+		width: 438px;
+		padding-top: 20px;
+	}
+		#bfw_featured_titles .bfw_center_col .bfw_main_book_image {
+			float: left;
+			width: 180px;
+			text-align: center;
+		}
+			#bfw_featured_titles .bfw_center_col .bfw_main_book_image img {
+				margin: 0 auto;
+				/*border: 3px solid #e4e4e4;*/
+			}
+		#bfw_featured_titles .bfw_center_col .bfw_main_book_details {
+			float: left;
+			width: 240px;
+		}
+			#bfw_featured_titles .bfw_center_col .bfw_main_book_details h5 {
+				font-size: 16px;
+				line-height: 20px;
+				margin-bottom: 5px;
+				color: #216335;
+			}
+			#bfw_featured_titles .bfw_center_col .bfw_main_book_details small.bfw_author {
+				color: #777777;
+				margin-bottom: 15px;
+			}
+			#bfw_featured_titles .bfw_center_col .bfw_main_book_details p {
+				margin-bottom: 5px;
+			}
+.bfw_side_menu_home {
+	color: #ffffff;
+	background: #184322;
+	margin-bottom: 0;
+}
+	.bfw_side_menu_home a {
+		color: #ffffff;
+		text-decoration: none;
+	}
+	.bfw_side_menu_home h5 {
+		font-family: Arial, sans-serif;
+		font-weight: bold;
+		font-size: 13px;
+		height: 21px;
+		line-height: 21px;
+		padding: 6px 12px;
+		margin: 0;
+		color: #ffffff;
+		background: #184322;
+	}
+	.bfw_side_menu_home h5.bfw_round_top_bg {
+		background-image: url(images/side_home_menu_top.gif);
+		background-position: top left;
+		background-repeat: no-repeat;
+	}
+	.bfw_side_menu_home .bfw_section {
+		background: #1e5f33 url(images/side_home_menu_bg.gif) top left repeat-x;
+	}
+		#bfw_menu_browse_by_discipline {
+
+		}
+		#bfw_menu_who_are_you {
+
+
+		}
+
+	.bfw_side_menu_home ul {
+		list-style: none;
+		padding: 10px 0 10px 15px;
+		margin: 0;
+	}
+		.bfw_side_menu_home ul li {
+			display: block;
+			font-size: 13px;
+			padding: 1px 0 1px 8px;
+			background: url(images/arrow_right_red_small.gif) center left no-repeat;
+		}
+	.bfw_side_menu_home_bottom_dark {
+		height: 10px;
+		margin-bottom: 10px;
+		background: none;
+		background: url(images/side_home_menu_bottom.gif) bottom left no-repeat;
+	}
+	.bfw_side_menu_home_bottom_light {
+		height: 10px;
+		margin-bottom: 10px;
+		background: none;
+		background: url(images/side_home_menu_bottom_light.gif) bottom left no-repeat;
+	}
+	
+#bfw_twitter_widget {
+	padding-bottom: 5px;
+	overflow: hidden;
+}
+#bfw_custom_solutions,
+#bfw_popular_elearning {
+	padding-bottom: 20px;
+}
+	#bfw_custom_solutions .bfw_fig,
+	#bfw_popular_elearning .bfw_fig {
+		margin: 0 auto;
+		display: block;
+	} 
+	#bfw_custom_solutions h4,
+	#bfw_popular_elearning h4 {
+		font-size: 15px;
+		color: #1a4776;
+		font-weight: bold;
+		margin-bottom: 8px;
+	}
+	#bfw_custom_solutions p,
+	#bfw_popular_elearning p {
+		margin-bottom: 8px;
+	}
+	#bfw_custom_solutions a,
+	#bfw_popular_elearning a {
+		color: #216335;
+		font-weight: bold;
+		text-decoration: none;
+	}
+
+#bfw_our_sister_sites {
+
+}
+	#bfw_our_sister_sites h5.bfw_title {
+
+	}
+	#bfw_our_sister_sites .bfw_logo_container {
+		padding: 0 10px;
+	}
+		#bfw_our_sister_sites .bfw_logo_container ul {
+			list-style: none;
+			background: #efece5;
+			margin: 0;
+			padding: 10px 0;
+		}
+			#bfw_our_sister_sites .bfw_logo_container ul li {
+				float: left;
+/*				width: 72px;*/
+				height: 65px;
+				border-right: 1px solid #dddddd;
+				margin: 0;
+				padding: 0 7px;
+				text-align: center;
+			}
+			#bfw_our_sister_sites .bfw_logo_container ul li.bfw_noborder {
+				border: none;
+			}
+	#bfw_our_sister_sites .bfw_bottom_control {
+		border: none;
+	}
+
+.smallbg {
+    background: #ffffff url(images/main_content_bg.gif) top center repeat-y !important;
+}
+#bfw_main_content {
+	background: #ffffff url(images/main_content_wide_bg.gif) top center repeat-y;
+	min-height: 400px;
+}
+	#bfw_main_content .bfw_padding {
+		padding: 10 12px 0 0;
+	}
+	#bfw_main_content h4.bfw_section_title {
+		font-size: 1.3em;
+		font-weight: bold;
+		margin-bottom: 1em;
+	}
+	#bfw_main_content .bfw_item_list {
+
+	}
+	#bfw_main_content_footer {
+		height: 12px;
+		margin: 0;
+		padding: 0;
+		
+		/*background: url(images/main_content_footer_bg.gif) bottom center no-repeat;*/
+		background: url(images/main_content_wide_footer_bg.gif) bottom center no-repeat;
+	}
+
+
+/* Privacy Policy */
+#bfw_privacy_policy_page .bfw_content_title {
+	background: url(images/content_title_wide_bg.gif) top center no-repeat;
+}
+#bfw_privacy_policy_page #bfw_main_content {
+	background: #ffffff url(images/main_content_wide_bg.gif) top center repeat-y;
+}
+#bfw_privacy_policy_page #bfw_main_content_footer {
+	background: url(images/main_content_wide_footer_bg.gif) bottom center no-repeat;
+}
+#bfw_privacy_policy {
+	background: url(images/privacy_policy_bg.gif) top center repeat-y;
+}
+	#bfw_privacy_policy_links {
+		position: relative;
+		height: 400px;
+	}
+	ul.bfw_privacy_policy_list {
+		list-style-type: square;
+	}
+		ul.bfw_privacy_policy_list a {
+			text-decoration: none;
+			font-weight: bold;
+		}
+		ul.bfw_privacy_policy_list a.bfw_current {
+			color: #216335;
+		}
+			ul.bfw_privacy_policy_list li ul {
+				list-style-type: square;
+				color: #777777;
+			}
+	
+	#bfw_privacy_policy h3 a {
+		color: #216335;
+	}
+	#bfw_privacy_policy h6 a {
+		
+	}
+	#bfw_privacy_policy h3 a,
+	#bfw_privacy_policy h6 a {
+		text-decoration: none;
+	}
+
+
+
+
+		
+		
+		
