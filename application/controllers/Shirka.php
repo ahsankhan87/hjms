@@ -50,7 +50,7 @@ class Shirka extends CI_Controller
                     $this->load->helper(array('form', 'url'));
 
                     $config['upload_path']          = './asset/images/';
-                    $config['allowed_types']        = 'gif|jpg|png';
+                    $config['allowed_types']        = 'gif|jpg|png|jpeg';
                     $config['max_size']             = 100;
                     $config['max_width']            = 1024;
                     $config['max_height']           = 768;
@@ -112,7 +112,7 @@ class Shirka extends CI_Controller
                     $this->load->helper(array('form', 'url'));
 
                     $config['upload_path']          = './asset/images/';
-                    $config['allowed_types']        = 'gif|jpg|png';
+                    $config['allowed_types']        = 'gif|jpg|png|jpeg';
                     $config['max_size']             = 100;
                     $config['max_width']            = 1024;
                     $config['max_height']           = 768;
