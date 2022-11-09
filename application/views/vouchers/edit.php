@@ -110,6 +110,7 @@
             <option <?php echo ($invoice_values['flight1_to_ksa'] == 'EG' ? 'selected="selected"' : '') ?> value="EG">EG</option>
             <option <?php echo ($invoice_values['flight1_to_ksa'] == 'EK' ? 'selected="selected"' : '') ?> value="EK">EK</option>
             <option <?php echo ($invoice_values['flight1_to_ksa'] == 'EY' ? 'selected="selected"' : '') ?> value="EY">EY</option>
+            <option <?php echo ($invoice_values['flight1_to_ksa'] == 'ER' ? 'selected="selected"' : '') ?> value="ER">ER</option>
             <option <?php echo ($invoice_values['flight1_to_ksa'] == 'FR' ? 'selected="selected"' : '') ?> value="FR">FR</option>
             <option <?php echo ($invoice_values['flight1_to_ksa'] == 'FZ' ? 'selected="selected"' : '') ?> value="FZ">FZ</option>
             <option <?php echo ($invoice_values['flight1_to_ksa'] == 'G9' ? 'selected="selected"' : '') ?> value="G9">G9</option>
@@ -205,6 +206,7 @@
             <option <?php echo ($invoice_values['flight1_return'] == 'EG' ? 'selected="selected"' : '') ?> value="EG">EG</option>
             <option <?php echo ($invoice_values['flight1_return'] == 'EK' ? 'selected="selected"' : '') ?> value="EK">EK</option>
             <option <?php echo ($invoice_values['flight1_return'] == 'EY' ? 'selected="selected"' : '') ?> value="EY">EY</option>
+            <option <?php echo ($invoice_values['flight1_to_ksa'] == 'ER' ? 'selected="selected"' : '') ?> value="ER">ER</option>
             <option <?php echo ($invoice_values['flight1_return'] == 'FR' ? 'selected="selected"' : '') ?> value="FR">FR</option>
             <option <?php echo ($invoice_values['flight1_return'] == 'FZ' ? 'selected="selected"' : '') ?> value="FZ">FZ</option>
             <option <?php echo ($invoice_values['flight1_return'] == 'G9' ? 'selected="selected"' : '') ?> value="G9">G9</option>

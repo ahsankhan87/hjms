@@ -451,7 +451,7 @@
             <b><span id="lblMakkahOffice">Makkah Office :</span></b>
         </td>
         <td>
-           <span id="lblMakkahstaff1"><b>Name:<?php echo $invoice_values['makkah_contact_person']."     Phone No.".$invoice_values['makkah_contact']; ?></b></span>
+           <span id="lblMakkahstaff1"><b><?php echo $invoice_values['makkah_contact_person']."     Phone No.".$invoice_values['makkah_contact']; ?></b></span>
         </td>
       <!--
         <td>
@@ -463,7 +463,7 @@
            <b><span id="lblMadinaOffice">Madina Office &nbsp;:</span></b>
         </td>
         <td>
-            <span id="lblMadinastaff1"><b>Name:<?php echo $invoice_values['madina_contact_person']."     Phone No.".$invoice_values['madina_contact']; ?></b></span>
+            <span id="lblMadinastaff1"><b><?php echo $invoice_values['madina_contact_person']."     Phone No.".$invoice_values['madina_contact']; ?></b></span>
         </td>
         <!--
         <td>
@@ -484,7 +484,7 @@
         </td>
         
         <td>
-            <span id="lblMadinastaff1"><b>Name:<?php echo $invoice_values['transport_contact_person']."     Phone No.".$invoice_values['transport_contact']; ?></b></span>
+            <span id="lblMadinastaff1"><b><?php echo $invoice_values['transport_contact_person']."     Phone No.".$invoice_values['transport_contact']; ?></b></span>
         </td>
     </tr>
      

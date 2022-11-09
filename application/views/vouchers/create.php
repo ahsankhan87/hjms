@@ -138,6 +138,7 @@
             <option value="EG">EG</option>
             <option value="EK">EK</option>
             <option value="EY">EY</option>
+            <option value="ER">ER</option>
             <option value="FR">FR</option>
             <option value="FZ">FZ</option>
             <option value="G9">G9</option>
@@ -235,6 +236,7 @@
             <option value="EG">EG</option>
             <option value="EK">EK</option>
             <option value="EY">EY</option>
+            <option value="ER">ER</option>
             <option value="FR">FR</option>
             <option value="FZ">FZ</option>
             <option value="G9">G9</option>
