@@ -60,7 +60,9 @@
           <li class="nav-item">
             <a class="nav-link" href="<?php echo site_url('Passengers'); ?>">Passengers</a>
           </li>
-          
+          <li class="nav-item">
+            <a class="nav-link" href="<?php echo site_url('Suppliers'); ?>">Suppliers</a>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Reports
