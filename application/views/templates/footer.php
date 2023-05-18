@@ -1,6 +1,6 @@
 
   </div>
-  <!-- /.Page Content container -->
+  <!-- /. container-fluid Page Content container -->
 
   <!-- Footer -->
   <footer class="py-5 bg-dark">

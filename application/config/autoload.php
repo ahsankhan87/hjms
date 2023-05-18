@@ -133,4 +133,4 @@ $autoload['language'] = array();
 |	$autoload['model'] = array('first_model' => 'first');
 */
 $autoload['model'] = array('M_transportation_type','M_transportation_trip','M_passengers','M_hotels','M_vouchers',
-'M_city','M_users','M_reports','M_shirkas','M_fyear','M_suppliers');
+'M_city','M_users','M_reports','M_shirkas','M_fyear','M_suppliers','M_receivings');

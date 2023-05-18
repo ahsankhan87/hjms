@@ -128,8 +128,8 @@ class Suppliers extends CI_Controller
 
             }
         } else {
-            $data['title'] = 'update' . ' ' . 'supplier';
-            $data['main'] = 'update' . ' ' . 'supplier';
+            $data['title'] = 'Update' . ' ' . 'Supplier';
+            $data['main'] = 'Update' . ' ' . 'Supplier';
 
             $data['supplier'] = $this->M_suppliers->get_suppliers($id);
 
