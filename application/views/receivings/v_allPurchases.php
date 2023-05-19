@@ -12,61 +12,41 @@
             echo '</div>';
         }
         ?>
-        <!-- <p>
-        <div class="btn-group">
-            <button type="button" class="btn btn-success"><?php echo lang('new') . ' ' . lang('transaction') ?></button>
-            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"><i class="fa fa-angle-down"></i></button>
-            <ul class="dropdown-menu" role="menu">
-                <li>
-                    <?php echo anchor('trans/C_receivings/index/cash', lang('cash') . ' ' . lang('purchases'), 'class="hidden-print"'); ?>
-                </li>
-                <li>
-                    <?php echo anchor('trans/C_receivings/index/credit', lang('credit') . ' ' . lang('purchases'), 'class="hidden-print"'); ?>
-                </li>
-                <li>
-                    <?php echo anchor('trans/C_receivings/index/cashReturn', lang('cash') . ' ' . lang('purchases') . ' ' . lang('return'), 'class="hidden-print"'); ?>
-                </li>
-                <li>
-                    <?php echo anchor('trans/C_receivings/index/creditReturn', lang('credit') . ' ' . lang('purchases') . ' ' . lang('return'), 'class="hidden-print"'); ?>
-                </li>
-            </ul>
-        </div>
         
-        </p> -->
         <?php if($purchaseType == "cash")
         {
-            echo anchor('trans/C_receivings/index/'.$purchaseType, lang('new').' ' . lang('transaction'), 'class="btn btn-success" id="sample_editable_1_new"'); 
+            echo anchor('Purchases/index/'.$purchaseType, 'new'.' ' . 'transaction', 'class="btn btn-success" id="sample_editable_1_new"'); 
         
         }else{
-            echo anchor('trans/C_bills/index/'.$purchaseType, lang('new').' ' . lang('transaction'), 'class="btn btn-success" id="sample_editable_1_new"'); 
+            echo anchor('Purchases/index/'.$purchaseType, 'new'.' ' . 'transaction', 'class="btn btn-success" id="sample_editable_1_new"'); 
         
         }
         ?>
 
         <div class="card">
             <div class="card-header">
-                <i class="fa fa-cogs"></i><span id="print_title"><?php echo $title; ?></span>
+                <?php echo $title; ?>
             </div>
-            <div class="portlet-body flip-scroll">
+            <div class="card-body">
 
-                <table class="table table-striped table-bordered table-condensed flip-content" id="sample_1" ><!-- id="sample_receivings_1122" -->
-                    <thead class="flip-content">
+            <table class="table table-bordered table-striped table-condensed" id="table_1">
+                    <thead class="thead-dark">
                         <tr>
                             <th>S.No</th>
                             <th>Inv #</th>
-                            <th><?php echo lang('date'); ?></th>
-                            <!-- <th><?php echo lang('supplier'); ?> Inv #</th>-->
-                            <th><?php echo lang('supplier'); ?></th>
-                            <!-- <th><?php echo lang('account'); ?></th> -->
-                            <th class="text-right"><?php echo lang('amount'); ?></th>
-                            <!-- <th class="text-right"><?php echo lang('taxes'); ?></th> -->
-                            <!-- <th class="text-right"><?php echo lang('grand') . ' ' . lang('total'); ?></th> -->
+                            <th><?php echo 'date'; ?></th>
+                            <!-- <th><?php echo 'supplier'; ?> Inv #</th>-->
+                            <th><?php echo 'supplier'; ?></th>
+                            <!-- <th><?php echo 'account'; ?></th> -->
+                            <th class="text-right"><?php echo 'amount'; ?></th>
+                            <!-- <th class="text-right"><?php echo 'taxes'; ?></th> -->
+                            <!-- <th class="text-right"><?php echo 'grand' . ' ' . 'total'; ?></th> -->
                             <?php 
                             if($purchaseType == "credit")
                             {
-                                echo '<th>'. lang('status') .'</th>';
+                                echo '<th>'. 'status' .'</th>';
                             } ?>
-                            <th class="hidden-print"><?php echo lang('action'); ?></th>
+                            <th class="hidden-print"><?php echo 'action'; ?></th>
                         </tr>
                     </thead>
                     <tbody>

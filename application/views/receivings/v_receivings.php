@@ -1,6 +1,20 @@
+<div class="card">
+    <div class="card-header">
+        Edit Form
+    </div>
+    <div class="card-body">
+
 <form id="sale_form" action="">
     <div class="row">
         <div class="col-sm-10">
+        
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="first_name">First Name: <span class="text-danger">*</span></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="first_name" name="first_name" value="<?php echo set_value('first_name') ?>" placeholder="First Name" />
+            </div>
+        </div>
+
 
             <label class="control-label col-sm-2" for=""><?php echo 'select' . ' ' . 'supplier' ?>:</label>
             <div class="col-sm-4">
@@ -63,8 +77,8 @@
     <div class="row">
         <div class="col-sm-12">
 
-            <table class="table table-striped table-bordered" id="sale_table">
-                <thead>
+            <table class="table table-bordered table-striped table-condensed" id="sale_table">
+                <thead class='thead-dark'>
                     <tr>
                         <th>#</th>
                         <th><?php echo 'product'; ?></th>
@@ -124,6 +138,7 @@
         
     </div><!-- close main_div here -->
 </form>
+</div> <!-- class="card-body"> -->
 
 <!-- Modal -->
 <div class="modal fade" id="supplierModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -192,7 +207,7 @@
     $(document).ready(function() {
 
         const module = '<?php echo $url1 = $this->uri->segment(3); ?>/';
-        const site_url = '<?php echo site_url($langs); ?>/';
+        const site_url = '/';
         const path = '<?php echo base_url(); ?>';
         const curr_symbol = "<?php echo $_SESSION["home_currency_symbol"]; ?>";
         const curr_code = "<?php echo $_SESSION["home_currency_code"]; ?>";
