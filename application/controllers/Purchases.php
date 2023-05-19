@@ -24,7 +24,7 @@ class Purchases extends CI_Controller
         //$data['sizesDDL'] = $this->M_sizes->get_activeSizesDDL();
         $data['supplierDDL'] = $this->M_suppliers->getSupplierDropDown(); //search for legder account
 
-        $this->load->view('templates/header',$data);
+        $this->load->view('templates/header', $data);
         $this->load->view('receivings/v_receivings', $data);
         $this->load->view('templates/footer');
     }
