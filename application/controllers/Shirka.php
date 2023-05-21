@@ -1,14 +1,12 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Shirka extends CI_Controller
+class Shirka extends MY_Controller
 {
 
     function __construct()
     {
         parent::__construct();
-        if ($this->session->userdata('logged_in') !== TRUE) {
-            redirect('Login');
-        }
+        
         $this->load->library('form_validation');
     }
 

@@ -1,13 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
-class City extends CI_Controller{
+class City extends MY_Controller{
     
     function __construct()
     {
         parent::__construct();
-        if($this->session->userdata('logged_in') !== TRUE){
-          redirect('Login');
-        }
+        
         $this->load->library('form_validation');
     }
     
@@ -43,7 +41,7 @@ class City extends CI_Controller{
         {
             //form Validation
             $this->form_validation->set_rules('name', 'Name', 'required');
-            $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
+            $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><a class="close" data-dismiss="alert">ï¿½</a><strong>', '</strong></div>');
             
             //after form Validation run
             if($this->form_validation->run())
@@ -77,7 +75,7 @@ class City extends CI_Controller{
             {
                 //form Validation
                 $this->form_validation->set_rules('name', 'Name', 'required');
-                $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
+                $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><a class="close" data-dismiss="alert">ï¿½</a><strong>', '</strong></div>');
                 
                 //after form Validation run
                 if($this->form_validation->run())

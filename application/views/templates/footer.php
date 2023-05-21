@@ -17,7 +17,8 @@
   <script src="<?php echo base_url(); ?>asset/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="<?php echo base_url(); ?>asset/vendor/datatables/dataTables.bootstrap4.min.js"></script>
   <script src="<?php echo base_url(); ?>asset/js/select2.min.js"></script>
-  
+  <script type="text/javascript" src="<?php echo base_url(); ?>asset/plugins/toastr/toastr.min.js"></script>
+
   <script>
   $(document).ready(function() {
         

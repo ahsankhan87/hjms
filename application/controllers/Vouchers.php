@@ -1,13 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Vouchers extends CI_Controller{
+class Vouchers extends MY_Controller{
   
   public function __construct()
     {
         parent::__construct();
-        if($this->session->userdata('logged_in') !== TRUE){
-          redirect('Login');
-        }
+       
         $this->load->library('form_validation');
     }
     

@@ -28,6 +28,7 @@
   <!-- select2 CSS-->
   <link href="<?php echo base_url(); ?>asset/css/select2.min.css" rel="stylesheet" />
 
+  <link href="<?php echo base_url(); ?>asset/plugins/toastr/toastr.min.css" rel="stylesheet" type="text/css">
 </head>
 
 <body class="animated fadeIn">
@@ -113,8 +114,8 @@
   <div class="container-fluid">
 
     <!-- Page Heading/Breadcrumbs 
-    <h2 class="mt-4 mb-3"><?php echo $main; ?>
-      <small><?php echo $main_small; ?></small>
+    <h2 class="mt-4 mb-3"><?php //echo $main; ?>
+      <small><?php //echo $main_small; ?></small>
     </h2>
 -->
 

@@ -535,7 +535,7 @@ ALTER TABLE `hjms_voucher_pnr_detail`
 
 CREATE TABLE `hjms_supplier` (
  `id` int(255) NOT NULL AUTO_INCREMENT,
- `company_id` int(255) NOT NULL,
+
  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
  `address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -560,9 +560,6 @@ CREATE TABLE `hjms_receivings` (
  `receiving_id` int(10) NOT NULL AUTO_INCREMENT,
  `invoice_no` varchar(100) NOT NULL,
  `receiving_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
- `company_id` int(255) NOT NULL,
- `supplier_id` int(10) DEFAULT NULL COMMENT 'ledger_id',
- `supplier_invoice_no` varchar(200) DEFAULT NULL,
  `employee_id` int(10) NOT NULL DEFAULT '0',
  `user_id` int(100) NOT NULL,
  `payment_acc_code` varchar(100) DEFAULT NULL,
@@ -576,8 +573,7 @@ CREATE TABLE `hjms_receivings` (
  `discount_value` double(10,4) DEFAULT NULL,
  `total_amount` decimal(10,4) NOT NULL,
  `paid` decimal(10,4) NOT NULL,
- `exchange_rate` decimal(10,5) NOT NULL,
- `currency_id` int(10) NOT NULL,
+ 
  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
  `total_tax` decimal(10,3) NOT NULL,
  `file` varchar(200) DEFAULT NULL,
@@ -586,12 +582,11 @@ CREATE TABLE `hjms_receivings` (
  `tax_id` int(11) DEFAULT NULL,
  `tax_rate` decimal(18,2) DEFAULT NULL,
  PRIMARY KEY (`receiving_id`),
- KEY `supplier_id` (`supplier_id`),
  KEY `employee_id` (`employee_id`),
- KEY `company_id` (`company_id`),
  KEY `invoice_no` (`invoice_no`),
  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+
 CREATE TABLE `hjms_receivings_items` (
  `receivings_items_id` int(10) NOT NULL AUTO_INCREMENT,
  `receiving_id` int(10) NOT NULL DEFAULT '0',
@@ -600,20 +595,15 @@ CREATE TABLE `hjms_receivings_items` (
  `account_code` varchar(100) DEFAULT NULL,
  `description` varchar(30) DEFAULT NULL,
  `serialnumber` varchar(30) DEFAULT NULL,
- `line` int(3) NOT NULL,
- `quantity_purchased` double(10,2) NOT NULL DEFAULT '0.00',
- `item_cost_price` decimal(15,4) NOT NULL,
- `item_unit_price` double(15,4) NOT NULL,
- `discount_percent` int(11) NOT NULL DEFAULT '0',
- `discount_value` decimal(18,0) DEFAULT NULL,
- `size_id` int(255) NOT NULL,
- `color_id` int(255) NOT NULL,
- `unit_id` int(20) DEFAULT NULL,
- `company_id` int(20) NOT NULL,
  `tax_id` int(10) DEFAULT '0',
  `tax_rate` decimal(10,0) DEFAULT '0',
- `service` tinyint(1) NOT NULL DEFAULT '0',
  PRIMARY KEY (`receivings_items_id`),
- KEY `receiving_id` (`receiving_id`,`invoice_no`,`item_id`,`size_id`),
- KEY `company_id` (`company_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8
+ KEY `receiving_id` (`receiving_id`,`invoice_no`,`item_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
+
+ALTER TABLE `hjms_passengers` ADD `supplier_id` INT(11) NULL AFTER `moi_no`;
+ALTER TABLE `hjms_receivings_items` ADD `visa_supplier_id` INT(11) NULL AFTER `tax_rate`;
+
+ALTER TABLE `hjms_receivings_items` CHANGE `item_cost_price` `visa_cost` DECIMAL(20,3) NULL, CHANGE `item_unit_price` `ticket_cost` DOUBLE(20,3) NULL;
+ALTER TABLE `hjms_receivings_items` ADD `hotel_cost` DECIMAL(20,3) NULL AFTER `ticket_cost`, ADD `other_cost` DECIMAL(20,3) NULL AFTER `hotel_cost`;
+ALTER TABLE `hjms_receivings_items` ADD `ticket_supplier_id` INT(11) NULL AFTER `visa_supplier_id`;

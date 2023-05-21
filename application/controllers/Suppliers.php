@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Suppliers extends CI_Controller
+class Suppliers extends MY_Controller
 {
 
     function __construct()
@@ -45,6 +45,11 @@ class Suppliers extends CI_Controller
     function get_suppliers_JSON($acc_code)
     {
         print_r(json_encode($this->M_suppliers->get_activeSuppliersByAccCode($acc_code)));
+    }
+
+    function get_activeSuppliers()
+    {
+        print_r(json_encode($this->M_suppliers->get_activeSuppliers()));
     }
 
     function create()

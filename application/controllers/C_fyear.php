@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class C_fyear extends CI_Controller{
+class C_fyear extends MY_Controller{
     
     public function __construct()
     {

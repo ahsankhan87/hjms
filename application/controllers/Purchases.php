@@ -1,17 +1,16 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Purchases extends CI_Controller
+class Purchases extends MY_Controller
 {
 
     public function __construct()
     {
         parent::__construct();
-        
     }
 
     public function index($purchaseType = '')
     {
-         
+
         $data['title'] = 'purchases';
         $data['main'] = 'purchases';
 
@@ -26,22 +25,23 @@ class Purchases extends CI_Controller
 
         $this->load->view('templates/header', $data);
         $this->load->view('receivings/v_receivings', $data);
+        // $this->load->view('city/create',$data);
         $this->load->view('templates/footer');
     }
-    
+
     public function all()
     {
-         
+
         $start_date = date("Y-m-d");
         $to_date = date("Y-m-d");
         $fiscal_dates = "(From: " . date('d-m-Y', strtotime($start_date)) . " To:" . date('d-m-Y', strtotime($to_date)) . ")";
 
-        $data['title'] = 'purchases'. ' ' . $fiscal_dates;
+        $data['title'] = 'purchases' . ' ' . $fiscal_dates;
         $data['main'] = 'purchases';
         $data['main_small'] = $fiscal_dates;
         $data['purchaseType'] = "cash";
 
-        $data['receivings'] = $this->M_receivings->get_receivings(false, $start_date, $to_date,'cash');
+        $data['receivings'] = $this->M_receivings->get_receivings(false, $start_date, $to_date, 'cash');
 
         $this->load->view('templates/header', $data);
         $this->load->view('receivings/v_allPurchases', $data);
@@ -71,7 +71,7 @@ class Purchases extends CI_Controller
             }
         } else {
 
-             
+
 
             $data['title'] = 'Purchase file';
             $data['main'] = 'Purchase file';
@@ -85,7 +85,7 @@ class Purchases extends CI_Controller
 
     public function edit($invoice_no)
     {
-         
+
 
         $data['title'] = 'edit' . ' ' . 'sales';
         $data['main'] = 'edit' . ' ' . 'sales';
@@ -97,49 +97,47 @@ class Purchases extends CI_Controller
 
         //$data['itemDDL'] = $this->M_items->get_allItemsforJSON();
         //$data['customersDDL'] = $this->M_customers->getCustomerDropDown();
-        
+
         $this->load->view('templates/header', $data);
         $this->load->view('receivings/v_editreceivings', $data);
         $this->load->view('templates/footer');
     }
 
-    public function purchase_transaction($edit = null,$invoice_no=null)
+    public function purchase_transaction($edit = null, $invoice_no = null)
     {
         //INITIALIZE
         $total_amount = 0;
         $discount = 0;
-        
+
         if ($this->input->server('REQUEST_METHOD') === 'POST') {
-            
-            if (count((array)$this->input->post('account_id')) > 0) {
-                
+
+            if (count((array)$this->input->post('pnr')) > 0) {
+                // var_dump($_POST);
+
                 $this->db->trans_start();
-                
+
                 //IF EDIT THEN DELETE ALL INVOICES AND INSERT AGAIN
-                 if($edit != null)
-                 {
-                     $this->delete($invoice_no,false);
-                     $new_invoice_no = $invoice_no;
-                 }else{
+                if ($edit != null) {
+                    $this->delete($invoice_no, false);
+                    $new_invoice_no = $invoice_no;
+                } else {
                     //GET PREVIOISE INVOICE NO  
                     @$prev_invoice_no = $this->M_receivings->getMAXPurchaseInvoiceNo();
                     //$number = (int) substr($prev_invoice_no,11)+1; // EXTRACT THE LAST NO AND INCREMENT BY 1
                     //$new_invoice_no = 'POS'.date("Ymd").$number;
                     $number = (int) $prev_invoice_no + 1; // EXTRACT THE LAST NO AND INCREMENT BY 1
                     $new_invoice_no = 'R' . $number;
-                    
-                 }
+                }
 
                 //GET ALL ACCOUNT CODE WHICH IS TO BE POSTED AMOUNT
                 $user_id = $_SESSION['user_id'];
-                $company_id = $_SESSION['company_id'];
+                $company_id = 0; // $_SESSION['company_id'];
                 $sale_date = $this->input->post("sale_date");
-                $supplier_id = $this->input->post("supplier_id");
-                $supplier_invoice_no = $this->input->post("supplier_invoice_no");
+
                 $emp_id = ''; //$this->input->post("emp_id");
-                $currency_id = ($this->input->post("currency_id") == '' ? 0 : $this->input->post("currency_id"));
-                $discount = ($this->input->post("total_discount") == '' ? 0 : $this->input->post("total_discount"));
-                $narration = '';//($this->input->post("description") == '' ? '' : $this->input->post("description"));
+                //$currency_id = ($this->input->post("currency_id") == '' ? 0 : $this->input->post("currency_id"));
+                // $discount = ($this->input->post("total_discount") == '' ? 0 : $this->input->post("total_discount"));
+                $narration = ''; //($this->input->post("description") == '' ? '' : $this->input->post("description"));
                 $register_mode = 'receive'; //$this->input->post("register_mode");
                 $purchaseType = 'cash';
                 $is_taxable =  1; //$this->input->post("is_taxable");
@@ -148,159 +146,180 @@ class Purchases extends CI_Controller
                 $business_address = $this->input->post("business_address");
                 $payment_acc_code = $this->input->post("payment_acc_code");
                 $sub_total = $this->input->post("sub_total");
-                $tax_acc_code = $this->input->post("tax_acc_code");
-                $tax_rate = $this->input->post("tax_rate");
-                $tax_id = $this->input->post('tax_id'); 
+                // $tax_acc_code = $this->input->post("tax_acc_code");
+                // $tax_rate = $this->input->post("tax_rate");
+                // $tax_id = $this->input->post('tax_id');
 
                 //if tax amount is checked or 1 then tax will be dedected otherwise not deducted from total amount
                 //total net amount 
                 $net_total =  $this->input->post("net_total");
-                
+
                 //////
-                
+
                 $data = array(
-                    'company_id' => $company_id,
                     'invoice_no' => $new_invoice_no,
-                    'supplier_id' => $supplier_id,
-                    'supplier_invoice_no' => $supplier_invoice_no,
                     'employee_id' => $emp_id,
                     'user_id' => $user_id,
-                    'payment_acc_code'=>$payment_acc_code,
+                    'payment_acc_code' => $payment_acc_code,
                     'receiving_date' => $sale_date,
                     'register_mode' => $register_mode,
                     'account' => $purchaseType,
                     'description' => $narration,
-                    'discount_value' => $discount,
-                    'currency_id' => $currency_id,
                     'total_amount' => ($register_mode == 'receive' ? $sub_total : -$sub_total), //return will be in minus amount
                     'total_tax' => ($register_mode == 'receive' ? $total_tax_amount : -$total_tax_amount), //return will be in minus amount
-                    'due_date'=>$due_date,
-                    'business_address'=>$business_address,
-                    'tax_rate'=>$tax_rate,
-                    'tax_id' => $tax_id,
+                    'due_date' => $due_date,
+                    'business_address' => $business_address,
+                    // 'tax_rate' => $tax_rate,
+                    // 'tax_id' => $tax_id,
                 );
                 $this->db->insert('hjms_receivings', $data);
                 $receiving_id = $this->db->insert_id();
                 ////////
 
-                $data = array(
-                    //'entry_id' => $entry_id,
-                    'employee_id' => $emp_id,
-                    'user_id' => $user_id,
-                    //'entry_no' => $entry_no,
-                    //'name' => $name,
-                    'account_code' => $payment_acc_code, //account_id,
-                    'date' => $sale_date,
-                    //'amount' => $dr_amount,
-                    //'ref_account_id' => $ref_id,
-                    'debit' => 0,
-                    'credit' => $sub_total,
-                    'invoice_no' => $new_invoice_no,
-                    'narration' => $narration,
-                    'company_id' => $company_id,
-                );
-                $this->db->insert('acc_entry_items', $data);
+                // $data = array(
+                //     //'entry_id' => $entry_id,
+                //     'employee_id' => $emp_id,
+                //     'user_id' => $user_id,
+                //     //'entry_no' => $entry_no,
+                //     //'name' => $name,
+                //     'account_code' => $payment_acc_code, //account_id,
+                //     'date' => $sale_date,
+                //     //'amount' => $dr_amount,
+                //     //'ref_account_id' => $ref_id,
+                //     'debit' => 0,
+                //     'credit' => $sub_total,
+                //     'invoice_no' => $new_invoice_no,
+                //     'narration' => $narration,
+                //     'company_id' => $company_id,
+                // );
+                // $this->db->insert('acc_entry_items', $data);
 
-                foreach ($this->input->post('account_id') as $key => $value) {
+                foreach ($this->input->post('pnr') as $key => $value) {
+                    if (strlen($value) > 0) {
 
-                    if ($value != 0) {
-                        $account_code  = htmlspecialchars(trim($value));
+                        $pnr_name  = htmlspecialchars(trim($value));
                         $qty = $this->input->post('qty')[$key];
-                        $unit_price = $this->input->post('unit_price')[$key];
-                        $cost_price = $this->input->post('cost_price')[$key];
+                        $ticket_cost = $this->input->post('ticket_cost')[$key];
+                        $hotel_cost = $this->input->post('hotel_cost')[$key];
+                        $other_cost = $this->input->post('other_cost')[$key];
+                        $visa_cost = $this->input->post('visa_cost')[$key];
+                        $visa_no = $this->input->post('visa_no')[$key];
                         $description = $this->input->post('description')[$key];
-                        $total_amount = (double)($qty*$cost_price);
-                        
+                        $visa_supplier_id = $this->input->post("visa_supplier_id")[$key];
+                        $ticket_supplier_id = $this->input->post("ticket_supplier_id")[$key];
+                        $hotel_supplier_id = $this->input->post("hotel_supplier_id")[$key];
+                        // $total_amount = (float)($qty * $visa_cost);
+
+
+                        //INSERT PESSENGERS FIRST AND SAVE ID INTO THE RECEIVING TABLE
+                        $data = array(
+                            'first_name' => $pnr_name,
+                            // 'last_name' => $this->input->post('last_name', true),
+                            // 'city' => $this->input->post('city', true),
+                            // 'country' => $this->input->post('country', true),
+                            // 'mobile_no' => $this->input->post('mobile_no', true),
+                            'active' => '1',
+                            //FOR TRAVEL AGENT ONLY
+                            //'passport_no' => $this->input->post('passport_no', true),
+                            // 'cnic' => $this->input->post('cnic', true),
+                            // 'father_name' => $this->input->post('father_name', true),
+                            // "gender" => $this->input->post('gender', true),
+                            //  'dob' => $this->input->post('dob', true),
+                            //  'customer_id' => 0,//$this->input->post('customer_id', true),
+                            'supplier_id' => $visa_supplier_id,
+                            'user_id' => $this->session->userdata('user_id'),
+                            ////
+                        );
+
+                        $this->db->insert('hjms_passengers', $data);
+                        $pnr_id = $this->db->insert_id();
+                        ///INSERT PESSENGERS
+
+
+
                         $data = array(
                             'receiving_id' => $receiving_id,
                             'invoice_no' => $new_invoice_no,
-                            'account_code'=>$account_code,
-                            'item_id' => 0,
+                            'account_code' => 0,
+                            'item_id' => $pnr_id,
                             'description' => $narration,
-                            'quantity_purchased' => ($register_mode == 'receive' ? $qty : -$qty), //if sales return then insert amount in negative
-                            'item_cost_price' => ($register_mode == 'receive' ? $cost_price : -$cost_price), //actually its avg cost comming from sale from
-                            'item_unit_price' => ($register_mode == 'receive' ? $unit_price : -$unit_price), //if sales return then insert amount in negative
-                            //'unit_id' => $this->input->post('unit_id')[$key],
-                            'description'=>$description,
-                            'company_id' => $company_id,
-                            //'discount_percent'=>($posted_values->discount_percent == null ? 0 : $posted_values->discount_percent),
-                            //'discount_value' => $this->input->post('discount')[$key],
-                            //'tax_id' => ($is_taxable == 1 ? $this->input->post('tax_id')[$key] : 0),
-                            //'tax_rate' => ($is_taxable == 1 ? $this->input->post('tax_rate')[$key] : 0),
-                            //'inventory_acc_code' => '', //$this->input->post('inventory_acc_code')[$key]
+                            'visa_cost' => ($register_mode == 'receive' ? $visa_cost : -$visa_cost), //actually its avg cost comming from sale from
+                            'ticket_cost' => ($register_mode == 'receive' ? $ticket_cost : -$ticket_cost), //actually its avg cost comming from sale from
+                            'hotel_cost' => ($register_mode == 'receive' ? $hotel_cost : -$hotel_cost), //actually its avg cost comming from sale from
+                            'other_cost' => ($register_mode == 'receive' ? $other_cost : -$other_cost), //actually its avg cost comming from sale from
+                            'description' => $description,
+                            'visa_no' => $visa_no,
+                            'visa_supplier_id' => $visa_supplier_id,
+                            'ticket_supplier_id' => $ticket_supplier_id,
+                            'hotel_supplier_id' => $hotel_supplier_id,
+
                         );
 
                         $this->db->insert('hjms_receivings_items', $data);
 
 
-                        $data = array(
-                            //'entry_id' => $entry_id,
-                            'employee_id' => $emp_id,
-                            'user_id' => $user_id,
-                            //'entry_no' => $entry_no,
-                            //'name' => $name,
-                            'account_code' => $account_code, //account_id,
-                            'date' => $sale_date,
-                            //'amount' => $dr_amount,
-                            //'ref_account_id' => $ref_id,
-                            'debit' => $total_amount,
-                            'credit' => 0,
-                            'invoice_no' => $new_invoice_no,
-                            'narration' => $narration,
-                            'company_id' => $company_id,
-                        );
-                        $this->db->insert('acc_entry_items', $data);
+                        // $data = array(
+                        //     //'entry_id' => $entry_id,
+                        //     'employee_id' => $emp_id,
+                        //     'user_id' => $user_id,
+                        //     //'entry_no' => $entry_no,
+                        //     //'name' => $name,
+                        //     'account_code' => $account_code, //account_id,
+                        //     'date' => $sale_date,
+                        //     //'amount' => $dr_amount,
+                        //     //'ref_account_id' => $ref_id,
+                        //     'debit' => $total_amount,
+                        //     'credit' => 0,
+                        //     'invoice_no' => $new_invoice_no,
+                        //     'narration' => $narration,
+                        //     'company_id' => $company_id,
+                        // );
+                        // $this->db->insert('acc_entry_items', $data);
                     }
                 }
-                
-                 ///////////////
-                    //TAX ACCOUNT ENTRY
-                    $data = array(
-                        //'entry_id' => $entry_id,
-                        'employee_id' => $emp_id,
-                        'user_id' => $user_id,
-                        //'entry_no' => $entry_no,
-                        //'name' => $name,
-                        'account_code' => $payment_acc_code, //account_id,
-                        'date' => $sale_date,
-                        //'amount' => $dr_amount,
-                        //'ref_account_id' => $ref_id,
-                        'debit' => 0,
-                        'credit' => $total_tax_amount,
-                        'invoice_no' => $new_invoice_no,
-                        'narration' => $narration,
-                        'company_id' => $company_id,
-                    );
-                    $this->db->insert('acc_entry_items', $data);
-                    
-                    $data = array(
-                        //'entry_id' => $entry_id,
-                        'employee_id' => $emp_id,
-                        'user_id' => $user_id,
-                        //'entry_no' => $entry_no,
-                        //'name' => $name,
-                        'account_code' => $tax_acc_code, //account_id,
-                        'date' => $sale_date,
-                        //'amount' => $dr_amount,
-                        //'ref_account_id' => $ref_id,
-                        'debit' =>$total_tax_amount,
-                        'credit' => 0,
-                        'invoice_no' => $new_invoice_no,
-                        'narration' => $narration,
-                        'company_id' => $company_id,
-                    );
-                    $this->db->insert('acc_entry_items', $data);
-                    //////////
-                    
-                        //for logging
-                        $msg = 'invoice no ' . $new_invoice_no;
-                        $this->M_logs->add_log($msg, "Purchase transaction", "created", "trans");
-                        // end logging
 
-              $this->db->trans_complete();
-              echo '1';
+                ///////////////
+                //TAX ACCOUNT ENTRY
+                // $data = array(
+                //     //'entry_id' => $entry_id,
+                //     'employee_id' => $emp_id,
+                //     'user_id' => $user_id,
+                //     //'entry_no' => $entry_no,
+                //     //'name' => $name,
+                //     'account_code' => $payment_acc_code, //account_id,
+                //     'date' => $sale_date,
+                //     //'amount' => $dr_amount,
+                //     //'ref_account_id' => $ref_id,
+                //     'debit' => 0,
+                //     'credit' => $total_tax_amount,
+                //     'invoice_no' => $new_invoice_no,
+                //     'narration' => $narration,
+                //     'company_id' => $company_id,
+                // );
+                // $this->db->insert('acc_entry_items', $data);
+
+                // $data = array(
+                //     //'entry_id' => $entry_id,
+                //     'employee_id' => $emp_id,
+                //     'user_id' => $user_id,
+                //     //'entry_no' => $entry_no,
+                //     //'name' => $name,
+                //     'account_code' => $tax_acc_code, //account_id,
+                //     'date' => $sale_date,
+                //     //'amount' => $dr_amount,
+                //     //'ref_account_id' => $ref_id,
+                //     'debit' =>$total_tax_amount,
+                //     'credit' => 0,
+                //     'invoice_no' => $new_invoice_no,
+                //     'narration' => $narration,
+                //     'company_id' => $company_id,
+                // );
+                // $this->db->insert('acc_entry_items', $data);
+                //////////
+
+                $this->db->trans_complete();
+                echo '1';
             }
-            
         }
     }
     //purchase the projuct angularjs
@@ -332,7 +351,7 @@ class Purchases extends CI_Controller
                 $posting_type_code = $this->M_suppliers->getSupplierPostingTypes($supplier_id);
                 $currency_id = ($this->input->post("currency_id") == '' ? 0 : $this->input->post("currency_id"));
                 $discount = ($this->input->post("total_discount") == '' ? 0 : $this->input->post("total_discount"));
-                $narration = '';//($this->input->post("description") == '' ? '' : $this->input->post("description"));
+                $narration = ''; //($this->input->post("description") == '' ? '' : $this->input->post("description"));
                 $register_mode = 'receive'; //$this->input->post("register_mode");
                 $purchaseType = 'cash';
                 $is_taxable =  1; //$this->input->post("is_taxable");
@@ -363,8 +382,8 @@ class Purchases extends CI_Controller
                     'currency_id' => $currency_id,
                     'total_amount' => ($register_mode == 'receive' ? $total_amount : -$total_amount), //return will be in minus amount
                     'total_tax' => ($register_mode == 'receive' ? $total_tax_amount : -$total_tax_amount), //return will be in minus amount
-                    'due_date'=>$due_date,
-                    'business_address'=>$business_address,
+                    'due_date' => $due_date,
+                    'business_address' => $business_address,
                 );
                 $this->db->insert('hjms_receivings', $data);
                 $receiving_id = $this->db->insert_id();
@@ -376,19 +395,19 @@ class Purchases extends CI_Controller
                         $item_id  = htmlspecialchars(trim($value));
                         $qty = $this->input->post('qty')[$key];
                         $unit_price = $this->input->post('unit_price')[$key];
-                        $cost_price = $this->input->post('cost_price')[$key];
+                        $visa_cost = $this->input->post('visa_cost')[$key];
                         $description = $this->input->post('description')[$key];
-                        
+
                         $data = array(
                             'receiving_id' => $receiving_id,
                             'invoice_no' => $new_invoice_no,
                             'item_id' => $item_id,
                             'description' => $narration,
                             'quantity_purchased' => ($register_mode == 'receive' ? $qty : -$qty), //if sales return then insert amount in negative
-                            'item_cost_price' => ($register_mode == 'receive' ? $cost_price : -$cost_price), //actually its avg cost comming from sale from
+                            'visa_cost' => ($register_mode == 'receive' ? $visa_cost : -$visa_cost), //actually its avg cost comming from sale from
                             'item_unit_price' => ($register_mode == 'receive' ? $unit_price : -$unit_price), //if sales return then insert amount in negative
                             'unit_id' => $this->input->post('unit_id')[$key],
-                            'description'=>$description,
+                            'description' => $description,
                             'company_id' => $company_id,
                             //'discount_percent'=>($posted_values->discount_percent == null ? 0 : $posted_values->discount_percent),
                             'discount_value' => $this->input->post('discount')[$key],
@@ -420,7 +439,7 @@ class Purchases extends CI_Controller
                                 $option_data = array(
                                     'quantity' => $quantity,
                                     'unit_price' => $unit_price,
-                                    'avg_cost' => $this->M_items->getAvgCost($item_id, $cost_price, $qty, $register_mode) //calculate avg cost
+                                    'avg_cost' => $this->M_items->getAvgCost($item_id, $visa_cost, $qty, $register_mode) //calculate avg cost
 
                                 );
                                 $this->db->update('pos_items_detail', $option_data, array('id' => $item_id));
@@ -435,7 +454,7 @@ class Purchases extends CI_Controller
                             'company_id' => $company_id,
                             'trans_user' => $user_id,
                             'invoice_no' => $new_invoice_no,
-                            'cost_price' => $cost_price, //actually its avg cost comming from sale from
+                            'visa_cost' => $visa_cost, //actually its avg cost comming from sale from
                             'unit_price' => $unit_price,
 
                         );
@@ -443,7 +462,7 @@ class Purchases extends CI_Controller
                         $this->db->insert('pos_inventory', $data1);
                         //////////////
 
-                        $amount += ($qty * $cost_price);
+                        $amount += ($qty * $visa_cost);
                     }
                 } //end foreach
 
@@ -469,14 +488,13 @@ class Purchases extends CI_Controller
                     //if invoice is cash then entry will be purchase debit and cash credit and vice versa
 
                     $dr_ledger_id = $posting_type_code[0]['inventory_acc_code'];
-                    if($bank_id != 0 && isset($bank_id))
-                    {
+                    if ($bank_id != 0 && isset($bank_id)) {
                         $get_banks = $this->M_banking->get_activeBanking($bank_id);
                         $cr_ledger_id = $posting_type_code[0]['bank_acc_code'];
-                    }else{
+                    } else {
                         $cr_ledger_id = $posting_type_code[0]['cash_acc_code'];
                     }
-                    
+
 
                     $entry_id = $this->M_entries->addEntries($dr_ledger_id, $cr_ledger_id, $amount, $amount, ucwords($narration), $new_invoice_no, $sale_date);
 
@@ -486,32 +504,30 @@ class Purchases extends CI_Controller
                     if ($total_tax_amount > 0) {
                         $tax_dr_ledger_id = $posting_type_code[0]['salestax_acc_code'];
                         //$tax_cr_ledger_id = $posting_type_code[0]['cash_acc_code'];
-                        if($bank_id != 0 && isset($bank_id))
-                        {
+                        if ($bank_id != 0 && isset($bank_id)) {
                             $tax_cr_ledger_id = $posting_type_code[0]['bank_acc_code'];
-                        }else{
+                        } else {
                             $tax_cr_ledger_id = $posting_type_code[0]['cash_acc_code'];
                         }
-                   
+
                         $this->M_entries->addEntries($tax_dr_ledger_id, $tax_cr_ledger_id, $total_tax_amount, $total_tax_amount, ucwords($narration), $new_invoice_no, $sale_date);
                     }
                     ////////////////
                     ///Bank entry
-                    if($bank_id != 0 && isset($bank_id))
-                    {
+                    if ($bank_id != 0 && isset($bank_id)) {
                         $data = array(
                             'bank_id' => $bank_id,
                             'account_code' => $get_banks[0]["bank_acc_code"],
                             'dueTo_acc_code' => $get_banks[0]["cash_acc_code"],
                             'date' => $sale_date,
-                            'debit'=>$amount,
-                            'credit'=>0,
+                            'debit' => $amount,
+                            'credit' => 0,
                             'invoice_no' => $new_invoice_no,
                             'entry_id' => $entry_id,
                             'narration' => $narration,
-                            'company_id'=> $_SESSION['company_id']
-                            );
-                        $this->db->insert('pos_bank_payments', $data); 
+                            'company_id' => $_SESSION['company_id']
+                        );
+                        $this->db->insert('pos_bank_payments', $data);
                     }
                     ///
                 }
@@ -548,22 +564,21 @@ class Purchases extends CI_Controller
                     $this->M_suppliers->addsupplierPaymentEntry($cr_ledger_id, $dr_ledger_id, 0, $total_amount, $supplier_id, $narration, $new_invoice_no, $sale_date);
                     ///
                     ///Bank entry
-                    if($bank_id != 0 && isset($bank_id))
-                    {
+                    if ($bank_id != 0 && isset($bank_id)) {
                         $get_banks = $this->M_banking->get_activeBanking($bank_id);
                         $data = array(
                             'bank_id' => $bank_id,
                             'account_code' => $get_banks[0]["bank_acc_code"],
                             'dueTo_acc_code' => $get_banks[0]["cash_acc_code"],
                             'date' => $sale_date,
-                            'debit'=>0,
-                            'credit'=>$total_amount,
+                            'debit' => 0,
+                            'credit' => $total_amount,
                             'invoice_no' => $new_invoice_no,
                             'entry_id' => $entry_id,
                             'narration' => $narration,
-                            'company_id'=> $_SESSION['company_id']
-                            );
-                        $this->db->insert('pos_bank_payments', $data); 
+                            'company_id' => $_SESSION['company_id']
+                        );
+                        $this->db->insert('pos_bank_payments', $data);
                     }
                     ///
                 }
@@ -685,7 +700,7 @@ class Purchases extends CI_Controller
 
     public function receipt($new_invoice_no)
     {
-         
+
         $data['receivings_items'] = $this->M_receivings->get_receiving_items($new_invoice_no);
         $receivings_items = $data['receivings_items'];
 
@@ -704,7 +719,7 @@ class Purchases extends CI_Controller
 
     public function purchase()
     {
-         
+
 
         //$this->output->enable_profiler();
 
@@ -752,7 +767,7 @@ class Purchases extends CI_Controller
         $this->db->trans_start();
 
         // $receiving_items = $this->M_receivings->get_receiving_items($invoice_no);
-        
+
         // foreach ($receiving_items as $values) {
         //     $total_stock =  $this->M_items->total_stock($values['item_id'], -1, -1);
         //     $quantity = ($total_stock - $values['quantity_purchased']);
@@ -760,7 +775,7 @@ class Purchases extends CI_Controller
         //     $option_data = array(
         //         'quantity' => $quantity,
         //         //'unit_price' =>$values['item_unit_price'],
-        //         'avg_cost' => $this->M_items->getAvgCost($values['item_id'], $values['item_cost_price'], $values['quantity_purchased'], 0, 0, 'return') //calculate avg cost
+        //         'avg_cost' => $this->M_items->getAvgCost($values['item_id'], $values['visa_cost'], $values['quantity_purchased'], 0, 0, 'return') //calculate avg cost
 
         //     );
         //     $this->db->update('pos_items_detail', $option_data, array('id' => $values['item_id']));
@@ -783,12 +798,11 @@ class Purchases extends CI_Controller
 
         $this->M_receivings->delete($invoice_no);
         $this->db->trans_complete();
-        
+
         if ($redirect === true) {
             $this->session->set_flashdata('message', 'Entry Deleted');
             redirect('trans/Purchases/all', 'refresh');
         }
-       
     }
 
     //Print Invoice in PDF
@@ -801,7 +815,7 @@ class Purchases extends CI_Controller
         $Company = $this->M_companies->get_companies($company_id);
         $supplier =  @$this->M_suppliers->get_suppliers(@$sales_items[0]['supplier_id']);
 
-        
+
         $this->load->library('Pdf_f');
         $pdf = new Pdf_f("P", 'mm', 'A4');
 
@@ -812,7 +826,7 @@ class Purchases extends CI_Controller
         $pdf->SetFont('Arial', '', 12);
         $pdf->Cell(50, 7, $Company[0]['address'], 0, 1);
         //$pdf->Cell(50, 7, "Salem 636002.", 0, 1);
-        $pdf->Cell(50, 7, "PH : ".$Company[0]['contact_no'], 0, 1);
+        $pdf->Cell(50, 7, "PH : " . $Company[0]['contact_no'], 0, 1);
 
         //Display INVOICE text
         $pdf->SetY(15);
@@ -827,7 +841,7 @@ class Purchases extends CI_Controller
         $pdf->SetY(49);
         $pdf->SetX(10);
         $pdf->SetFont('Arial', 'B', 12);
-        $pdf->Cell(50, 10, 'bill'.' '.'to'." : ", 0, 1);
+        $pdf->Cell(50, 10, 'bill' . ' ' . 'to' . " : ", 0, 1);
         $pdf->SetFont('Arial', '', 12);
         $pdf->Cell(50, 7, $supplier[0]["name"], 0, 1);
         $pdf->Cell(50, 7, $supplier[0]["address"], 0, 1);
@@ -836,12 +850,12 @@ class Purchases extends CI_Controller
         //Display Invoice no
         $pdf->SetY(49);
         $pdf->SetX(-60);
-        $pdf->Cell(50, 7, 'invoice'." No : " . $new_invoice_no);
+        $pdf->Cell(50, 7, 'invoice' . " No : " . $new_invoice_no);
 
         //Display Invoice date
         $pdf->SetY(57);
         $pdf->SetX(-60);
-        $pdf->Cell(50, 7, 'invoice'.' ' .'date'." : " . date('m-d-Y',strtotime($sales_items[0]["receiving_date"])));
+        $pdf->Cell(50, 7, 'invoice' . ' ' . 'date' . " : " . date('m-d-Y', strtotime($sales_items[0]["receiving_date"])));
 
         //Display Table headings
         $pdf->SetY(85);
@@ -852,20 +866,20 @@ class Purchases extends CI_Controller
         $pdf->Cell(30, 9, strtoupper(lang("quantity")), 1, 0, "C");
         $pdf->Cell(40, 9, strtoupper(lang("total")), 1, 1, "C");
         $pdf->SetFont('Arial', '', 12);
-        
+
         $discount = 0;
         $total_cost = 0;
         $total = 0;
         //Display table product rows
         foreach ($sales_items as $row) {
-            $total += ($row['item_cost_price'] * $row['quantity_purchased']);
+            $total += ($row['visa_cost'] * $row['quantity_purchased']);
             $discount += $row['discount_value'];
             // $account_name = $this->M_groups->get_accountName($row['account_code']);
 
             $pdf->Cell(80, 9, $row["item_desc"], "LR", 0);
-            $pdf->Cell(40, 9, number_format($row["item_cost_price"],2), "R", 0, "R");
-            $pdf->Cell(30, 9, number_format($row["quantity_purchased"],2), "R", 0, "C");
-            $pdf->Cell(40, 9, number_format(($row['item_cost_price'] * $row['quantity_purchased']),2), "R", 1, "R");
+            $pdf->Cell(40, 9, number_format($row["visa_cost"], 2), "R", 0, "R");
+            $pdf->Cell(30, 9, number_format($row["quantity_purchased"], 2), "R", 0, "C");
+            $pdf->Cell(40, 9, number_format(($row['visa_cost'] * $row['quantity_purchased']), 2), "R", 1, "R");
         }
         //Display table empty rows
         for ($i = 0; $i < 12 - count($sales_items); $i++) {
@@ -877,7 +891,7 @@ class Purchases extends CI_Controller
         //Display table total row
         $pdf->SetFont('Arial', 'B', 12);
         $pdf->Cell(150, 9, strtoupper(lang("total")), 1, 0, "R");
-        $pdf->Cell(40, 9, number_format($total,2), 1, 1, "R");
+        $pdf->Cell(40, 9, number_format($total, 2), 1, 1, "R");
 
         //Display amount in words
         $pdf->SetY(215);
@@ -885,7 +899,7 @@ class Purchases extends CI_Controller
         $pdf->SetFont('Arial', 'B', 12);
         $pdf->Cell(0, 9, "Amount in Words ", 0, 1);
         $pdf->SetFont('Arial', '', 12);
-        $pdf->Cell(0, 9, number_format($total,2), 0, 1);
+        $pdf->Cell(0, 9, number_format($total, 2), 0, 1);
         ///////////////
         ///body
 
