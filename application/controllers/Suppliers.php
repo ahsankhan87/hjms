@@ -148,12 +148,12 @@ class Suppliers extends MY_Controller
     {
         $data['title'] = 'Supplier Detail';
         $data['main'] = 'Supplier Detail';
-        $data['from_date'] = ($this->input->post('from_date') ? $this->input->post('from_date') : '');
-        $data['to_date'] = ($this->input->post('to_date') ? $this->input->post('to_date') : '');
+        $data['from_date'] = ($this->input->post('from_date') ? $this->input->post('from_date') : FY_START_DATE);
+        $data['to_date'] = ($this->input->post('to_date') ? $this->input->post('to_date') : FY_END_DATE);
         $data['main_small'] = '<br />' . date('d-m-Y', strtotime($data['from_date'])) . ' To ' . date('d-m-Y', strtotime($data['to_date']));
 
         $data['supplier'] = $this->M_suppliers->get_suppliers($supplier_id);
-        // $data['supplier_entries']= $this->M_suppliers->get_supplier_Entries($supplier_id,$data['from_date'],$data['to_date']);
+        $data['supplier_entries']= $this->M_suppliers->get_supplier_Entries($supplier_id,$data['from_date'],$data['to_date']);
 
         $this->load->view('templates/header', $data);
         $this->load->view('suppliers/v_supplierDetail', $data);

@@ -36,17 +36,13 @@
                             <th>Inv #</th>
                             <th><?php echo 'date'; ?></th>
                             <!-- <th><?php echo 'supplier'; ?> Inv #</th>-->
-                            <th><?php echo 'supplier'; ?></th>
+                            <!-- <th><?php echo 'supplier'; ?></th> -->
                             <!-- <th><?php echo 'account'; ?></th> -->
                             <th class="text-right"><?php echo 'amount'; ?></th>
                             <!-- <th class="text-right"><?php echo 'taxes'; ?></th> -->
                             <!-- <th class="text-right"><?php echo 'grand' . ' ' . 'total'; ?></th> -->
-                            <?php 
-                            if($purchaseType == "credit")
-                            {
-                                echo '<th>'. 'status' .'</th>';
-                            } ?>
-                            <th class="hidden-print"><?php echo 'action'; ?></th>
+                            <th></th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -64,35 +60,15 @@
                             echo '<td>'.$list['invoice_no'].'</td>';
                             echo '<td>'.date('d-m-Y',strtotime($list['receiving_date'])).'</td>';
                             //echo '<td><img src="'.base_url('images/supplier-images/thumbs/'.$list['supplier_image']).'" width="40" height="40"/></td>';
-                            $supplier_name = $this->M_suppliers->get_supplierName($list['supplier_id']);
-                            echo '<td>'.@$supplier_name.'</td>';
+                            // $supplier_name = $this->M_suppliers->get_supplierName($list['supplier_id']);
+                            // echo '<td>'.@$supplier_name.'</td>';
                             //    echo '<td>'.$list['supplier_invoice_no'].'</td>';
                             //    echo '<td>'.@$this->M_employees->get_empName($list['employee_id']).'</td>';
                             echo '<td class="text-right">'. number_format($total,2). '</td>';
                             
-                            
-                            if($paid >= $total){
-                                    $label = "label label-success";
-                                    $status = 'Paid';
-                            }elseif($paid < $total && $paid > 0) {
-                                    $label = "label label-warning";
-                                    $status = 'Partialy Paid';
-                            }else {
-                                    $label = "label label-danger";
-                                    $status = 'Unpaid';
-                            }
-                            if($purchaseType == "credit")
-                            {
-                                echo '<td> <span class="'.$label.'">' . $status . '</span></td>';
-                            }
+                           
                             echo '<td class="text-right">';
-                            if($purchaseType == "credit" && $status != 'Paid')
-                            {
-                            echo '<a href="'.site_url($langs).'/trans/'.($purchaseType == "cash" ? "C_receivings" : "C_bills").'/receivePayment/' . $list['supplier_id'] .'/'.$list['invoice_no'].'" title="Payment" >Payment</a> | ';
-                            }
-                            echo '<a href="'.site_url($langs).'/trans/'.($purchaseType == "cash" ? "C_receivings" : "C_bills").'/edit/' . $list['invoice_no'] .'" title="Edit Sales" ><i class=\'fa fa-pencil-square-o fa-fw\'></i></a>';
-                            echo '| <a href="'.site_url($langs).'/trans/'.($purchaseType == "cash" ? "C_receivings" : "C_bills").'/printReceipt/' . $list['invoice_no'] .'" title="Print Invoice" target="_blank" ><i class=\'fa fa-print fa-fw\'></i></a>';
-                            echo '| <a href="'.site_url($langs).'/trans/'.($purchaseType == "cash" ? "C_receivings" : "C_bills").'/delete/' . $list['invoice_no'] .'" onclick="return confirm(\'Are you sure you want to permanent delete? All entries will be deleted permanently\')"; title="Permanent Delete"><i class=\'fa fa-trash-o fa-fw\'></i></a>';
+                             echo '<a href="'.site_url().'Purchases/delete/' . $list['invoice_no'] .'" onclick="return confirm(\'Are you sure you want to permanent delete? All entries will be deleted permanently\')"; title="Permanent Delete"><i class=\'fa fa-trash-o fa-fw\'>Delete</i></a>';
                             echo '</td>';
                             echo '</tr>';
                         } 

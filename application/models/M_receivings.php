@@ -149,24 +149,24 @@ class M_receivings extends CI_Model{
         
         $this->db->delete('hjms_receivings_items',array('invoice_no'=>$invoice_no));
         
-        $receiving = $this->get_receiving_inv_payment($invoice_no);
-        foreach($receiving as $key => $list)
-        {
-            //delete entries of invoice payments / partial payment in invoice
-            $this->db->delete('acc_entries',array('invoice_no'=>$list['invoice_no']));
-            $this->db->delete('acc_entry_items',array('invoice_no'=>$list['invoice_no']));
+        // $receiving = $this->get_receiving_inv_payment($invoice_no);
+        // foreach($receiving as $key => $list)
+        // {
+        //     //delete entries of invoice payments / partial payment in invoice
+        //     $this->db->delete('acc_entries',array('invoice_no'=>$list['invoice_no']));
+        //     $this->db->delete('acc_entry_items',array('invoice_no'=>$list['invoice_no']));
 
-        }
-        $this->db->delete('pos_receiving_inv_payment',array('receiving_invoice_no'=>$invoice_no));
+        // }
+        // $this->db->delete('pos_receiving_inv_payment',array('receiving_invoice_no'=>$invoice_no));
 
-        $this->db->delete('acc_entries',array('invoice_no'=>$invoice_no));
-        $this->db->delete('acc_entry_items',array('invoice_no'=>$invoice_no));
+        // $this->db->delete('acc_entries',array('invoice_no'=>$invoice_no));
+        // $this->db->delete('acc_entry_items',array('invoice_no'=>$invoice_no));
         
-        $this->db->delete('pos_supplier_payments',array('invoice_no'=>$invoice_no));
+        $this->db->delete('hjms_supplier_payments',array('invoice_no'=>$invoice_no));
         
         //for logging
-        $msg = $invoice_no;
-        $this->M_logs->add_log($msg,"Receivings","Deleted","POS");
+        // $msg = $invoice_no;
+        // $this->M_logs->add_log($msg,"Receivings","Deleted","POS");
         // end logging
     }
 

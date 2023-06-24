@@ -46,10 +46,10 @@
                             echo '<td>' . form_checkbox('p_id[]', $list['id'], false) . '</td>';
                             echo '<td>' . $list['id'] . '</td>';
                             //echo '<td>'.$list['id'].'</td>';
-                            //echo '<td><a href="'.site_url('pos/C_Suppliers/passengerDetail/'. $list['id']).'">'.$list['first_name'] . ' '. $list['last_name'].'</a></td>';
+                            echo '<td><a href="'.site_url('Suppliers/supplierDetail/'. $list['id']).'">'.$list['name'].'</a></td>';
                             //        echo '<td><a href="'.site_url('pos/C_Suppliers/passengerDetail/'. $list['id']).'">'.$list['passport_no'].'</a></td>';
                             //        
-                            echo '<td>' . trim($list['name']);
+                            // echo '<td>' . trim($list['name']);
                             echo '<td>' . $list['contact_no'] . '</td>';
                             echo '<td>' . $list['email'] . '</td>';
                             echo '<td>' . $list['address'] . '</td>';

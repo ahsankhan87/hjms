@@ -85,7 +85,7 @@ class M_suppliers extends CI_Model{
         $this->db->group_by('sp.id');
         //$this->db->join('acc_groups g','g.account_code=sp.account_code');
         $this->db->select('sp.*')->from('hjms_supplier_payments sp')->where('sp.supplier_id', $supplier_id);
-        $this->db->where('sp.company_id', $_SESSION['company_id']);
+        // $this->db->where('sp.company_id', $_SESSION['company_id']);
         //$this->db->where('g.company_id', $_SESSION['company_id']);
         $this->db->where('date >=', $fy_start_date);
         $this->db->where('date <=', $fy_end_date);
