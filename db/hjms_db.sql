@@ -607,3 +607,25 @@ ALTER TABLE `hjms_receivings_items` ADD `visa_supplier_id` INT(11) NULL AFTER `t
 ALTER TABLE `hjms_receivings_items` CHANGE `item_cost_price` `visa_cost` DECIMAL(20,3) NULL, CHANGE `item_unit_price` `ticket_cost` DOUBLE(20,3) NULL;
 ALTER TABLE `hjms_receivings_items` ADD `hotel_cost` DECIMAL(20,3) NULL AFTER `ticket_cost`, ADD `other_cost` DECIMAL(20,3) NULL AFTER `hotel_cost`;
 ALTER TABLE `hjms_receivings_items` ADD `ticket_supplier_id` INT(11) NULL AFTER `visa_supplier_id`;
+
+CREATE TABLE `hjms_supplier_payments` (
+ `id` int(100) NOT NULL AUTO_INCREMENT,
+ `invoice_no` varchar(100) NOT NULL,
+ `supplier_id` int(100) NOT NULL,
+ `account_code` varchar(100) NOT NULL,
+ `dueTo_acc_code` varchar(100) NOT NULL,
+ `ref_account_id` int(20) DEFAULT '0' COMMENT 'its supplier id',
+ `debit` double(15,4) NOT NULL,
+ `credit` double(15,4) NOT NULL,
+ `narration` text,
+ `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ `date` date NOT NULL,
+ `entry_id` int(20) DEFAULT NULL,
+ `due_date` date DEFAULT NULL,
+ `user_id` int(11) DEFAULT NULL,
+ PRIMARY KEY (`id`),
+ KEY `invoice_no` (`invoice_no`,`supplier_id`,`account_code`),
+ KEY `ref_account_id` (`ref_account_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
+
+ALTER TABLE `hjms_receivings_items` ADD `ticket_pnr` VARCHAR(100) NULL AFTER `hotel_supplier_id`, ADD `ticket_no` VARCHAR(100) NULL AFTER `ticket_pnr`, ADD `paid` DECIMAL(30,2) NULL AFTER `ticket_no`;
