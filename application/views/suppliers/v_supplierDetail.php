@@ -75,8 +75,8 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab_1_1">
                         <p>
-                            <a href="<?php echo site_url('pos/Suppliers/supplierPayment/' . $supplier[0]['id']) ?>" class="btn btn-success">Payment</a>
-                            <a href="<?php echo site_url('pos/Suppliers/emailSupplierLedger/' . $supplier[0]['id'] . '/' . $from_date . '/' . $to_date); ?>" onclick="return confirm('Are you sure you want to email ledger?')" class="btn btn-warning">Email Ledger</a>
+                            <a href="<?php echo site_url('Suppliers/supplierPayment/' . $supplier[0]['id']) ?>" class="btn btn-success">Payment</a>
+                            <!-- <a href="<?php echo site_url('Suppliers/emailSupplierLedger/' . $supplier[0]['id'] . '/' . $from_date . '/' . $to_date); ?>" onclick="return confirm('Are you sure you want to email ledger?')" class="btn btn-warning">Email Ledger</a> -->
                         </p>
 
                         <table class="table table-bordered table-striped table-condensed flip-content" id="sample_customer">

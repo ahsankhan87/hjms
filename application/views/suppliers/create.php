@@ -27,7 +27,7 @@
         <input type="text" class="form-control" id="contact_no" name="contact_no" placeholder="Phone No." />
       </div>
     </div>
-    
+
 
     <div class="form-group">
       <label class="control-label col-sm-2" for="email">Email:</label>
@@ -35,16 +35,16 @@
         <input type="text" class="form-control" id="email" name="email" placeholder="Email" />
       </div>
     </div>
-    
+
     <div class="form-group">
       <label class="control-label col-sm-2" for="address">Address:</label>
       <div class="col-sm-10">
         <input type="text" class="form-control" id="address" name="address" placeholder="address" />
       </div>
     </div>
-    
+
     <?php
-   
+
     echo '<div class="form-group"><label class="control-label col-sm-2" for="submit"></label>';
     echo '<div class="col-sm-10">';
     echo form_submit('submit', 'Submit', 'class="btn btn-success"');

@@ -32,7 +32,7 @@ class Suppliers extends MY_Controller
         $data['title'] = 'supplier' . ' ' . 'payment';
         $data['main'] = 'supplier' . ' ' . 'payment';
 
-        $data['activeBanks'] = $this->M_banking->getbankDropDown();
+        //$data['activeBanks'] = $this->M_banking->getbankDropDown();
         //$data['creditSales'] = $this->M_sales->get_creditSales($supplier_id);
         $data['supplier'] = $this->M_suppliers->get_suppliers($supplier_id);
         //$data['supplier_entries']= $this->M_suppliers->get_supplier_Entries($supplier_id,FY_START_DATE,FY_END_DATE);
@@ -42,6 +42,74 @@ class Suppliers extends MY_Controller
         $this->load->view('templates/footer');
     }
 
+    function makePayment()
+    {
+        $supplier_id = $this->input->post('supplier_id');
+        $user_id = $this->session->userdata('user_id');
+        
+        //GET ALL ACCOUNT CODE WHICH IS TO BE POSTED AMOUNT
+        if($supplier_id && $this->input->post('amount'))
+        {
+            $this->db->trans_start();
+        
+           //GET PREVIOISE INVOICE NO  
+           @$prev_invoice_no = $this->M_suppliers->getMAXSupInvoiceNo('SP');
+           $number = (int) substr($prev_invoice_no,2)+1; // EXTRACT THE LAST NO AND INCREMENT BY 1
+           $new_invoice_no = 'SP'.$number;
+           
+           $date = $this->input->post('payment_date', true);
+           $payment_type = $this->input->post('payment_type', true);
+           $discount_amount = $this->input->post('discount_amount', true);
+           $narration = ($this->input->post('narration',true) == '' ? '' : $this->input->post('narration',true));
+           
+           $total_amount = $this->input->post('amount', true);
+           
+                    
+            //for cusmoter payment table
+            $this->M_suppliers->addsupplierPaymentEntry('Cash','',$total_amount,0,$supplier_id,$narration,$new_invoice_no,$date,$user_id);
+            /// 
+           
+           //IF DISCOUNT GIVEN
+        //    $discount_amount = $this->input->post('discount_amount');
+               
+        //    if($discount_amount > 0)
+        //    {
+        //         if(@$_SESSION['multi_currency'] == 1)
+        //         {
+                
+        //            $cr_account = $posting_type_code[0]['purchasedis_acc_code'];//supplier ledger id
+        //            $dr_account = $posting_type_code[0]['payable_acc_code'];//supplier ledger id
+        //            $entry_id=$this->M_entries->addEntries($dr_account,$cr_account,$discount_amount/$exchange_rate,$discount_amount/$exchange_rate,$narration,$new_invoice_no,$date,null,$supplier_id,0,$is_supplier);
+                   
+        //            //for cusmoter dicsount payment table
+        //            $this->M_suppliers->addsupplierPaymentEntry($dr_account,$cr_account,$discount_amount/$exchange_rate,0,$supplier_id,$narration,$new_invoice_no,$date,$exchange_rate,$entry_id);
+        //            ///  
+        //         }
+        //         else
+        //         {
+        //            $cr_account = $posting_type_code[0]['purchasedis_acc_code'];//supplier ledger id
+        //            $dr_account = $posting_type_code[0]['payable_acc_code'];//supplier ledger id
+        //            $entry_id=$this->M_entries->addEntries($dr_account,$cr_account,$discount_amount,$discount_amount,$narration,$new_invoice_no,$date);
+                   
+        //            //for cusmoter dicsount payment table
+        //            $this->M_suppliers->addsupplierPaymentEntry($dr_account,$cr_account,$discount_amount,0,$supplier_id,$narration,$new_invoice_no,$date,1,$entry_id);
+        //            ///
+        //         }
+               
+        //    }
+        
+        $this->db->trans_complete();   
+          
+           $this->session->set_flashdata('message','Amount Paid Successfully');
+           redirect('Suppliers/supplierDetail/'.$supplier_id,'refresh');
+        }
+        else
+        {
+           $this->session->set_flashdata('error','Not Paid!. Please Enter Amount OR It seem that you did not assign posting account type to supplier');
+           redirect('Suppliers/supplierDetail/'.$supplier_id,'refresh');
+        }
+    }
+    
     function get_suppliers_JSON($acc_code)
     {
         print_r(json_encode($this->M_suppliers->get_activeSuppliersByAccCode($acc_code)));

@@ -146,7 +146,7 @@ class Purchases extends MY_Controller
                         $hotel_supplier_id = $this->input->post("hotel_supplier_id")[$key];
                         $ticket_pnr = $this->input->post("ticket_pnr")[$key];
                         $ticket_no = $this->input->post("ticket_no")[$key];
-                        $amount_paid = $this->input->post("amount_paid")[$key];
+                        //$amount_paid = $this->input->post("amount_paid")[$key];
                         // $total_amount = (float)($qty * $visa_cost);
 
 
@@ -193,7 +193,7 @@ class Purchases extends MY_Controller
                             'hotel_supplier_id' => $hotel_supplier_id,
                             'ticket_pnr' => $ticket_pnr,
                             'ticket_no' => $ticket_no,
-                            'paid' => $amount_paid,
+                            //'paid' => $amount_paid,
 
                         );
 
@@ -244,21 +244,7 @@ class Purchases extends MY_Controller
                             );
                             $this->db->insert('hjms_supplier_payments', $data);
                         }
-                        if($amount_paid > 0)
-                        {
-                            $data = array(
-                                'invoice_no' => $new_invoice_no,
-                                'supplier_id' => $visa_supplier_id,
-                                'user_id' => $user_id,
-                                'account_code' => '', //account_id,
-                                'date' => $sale_date,
-                                'debit' => $amount_paid,
-                                'credit' => 0,
-                                'narration' => 'Amount Paid '.$narration,
-                               
-                            );
-                            $this->db->insert('hjms_supplier_payments', $data);
-                        }
+                       
                     }
                 }
 
@@ -270,7 +256,6 @@ class Purchases extends MY_Controller
 
     public function receipt($new_invoice_no)
     {
-
         $data['receivings_items'] = $this->M_receivings->get_receiving_items($new_invoice_no);
         $receivings_items = $data['receivings_items'];
 

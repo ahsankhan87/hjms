@@ -47,7 +47,7 @@
                                         <th><?php echo 'Hotel Supplier'; ?></th>
                                         
                                         <th><?php echo 'Other' . ' ' . 'Price'; ?></th>
-                                        <th><?php echo 'Amount Paid'; ?></th>
+                                        <!-- <th><?php echo 'Amount Paid'; ?></th> -->
                                         <th><?php echo 'Description'; ?></th>
 
                                         <th><?php echo 'Sub Total'; ?></th>
@@ -225,9 +225,9 @@
                     '</td>'+
                     
                     '<td class="text-right"><input type="number" class="form-control other_cost" id="othercost_' + counter + '" name="other_cost[]" step="0.0001" autocomplete="off"></td>' +
-                    '<td>'+
-                    '<input type="number" class="form-control amount_paid" id="amountpaid_' + counter + '" name="amount_paid[]" step="0.0001" autocomplete="off">' +
-                    '</td>'+
+                    // '<td>'+
+                    // '<input type="number" class="form-control amount_paid" id="amountpaid_' + counter + '" name="amount_paid[]" step="0.0001" autocomplete="off">' +
+                    // '</td>'+
                     '<td class="text-right"><input type="text" class="form-control description" id="description_' + counter + '" name="description[]" value=""  ></td>' +
                     '<td class="text-right total" id="total_' + counter + '"></td>' +
                     '<td><i id="removeItem" class="fa fa-trash-o fa-1x" style="color:red;cursor:pointer">X</i></td></tr>';
@@ -585,9 +585,9 @@
                                 '</td>'+
                                 
                                 '<td class="text-right"><input type="number" class="form-control other_cost" id="othercost_' + counter + '" name="other_cost[]" step="0.0001" autocomplete="off"></td>' +
-                                '<td>'+
-                                '<input type="number" class="form-control amount_paid" id="amountpaid_' + counter + '" name="amount_paid[]" step="0.0001" autocomplete="off">' +
-                                '</td>'+
+                                // '<td>'+
+                                // '<input type="number" class="form-control amount_paid" id="amountpaid_' + counter + '" name="amount_paid[]" step="0.0001" autocomplete="off">' +
+                                // '</td>'+
                                 '<td class="text-right"><input type="text" class="form-control description" id="description_' + counter + '" name="description[]" value=""  ></td>' +
                                 '<td class="text-right total" id="total_' + counter + '"></td>' +
                                 '<td><i id="removeItem" class="fa fa-trash-o fa-1x"  style="color:red;cursor:pointer">X</i></td></tr>';

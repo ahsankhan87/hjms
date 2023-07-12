@@ -109,7 +109,7 @@ class M_suppliers extends CI_Model{
     }
     
     function addsupplierPaymentEntry($account_code,$dueTo_acc_code,$dr_amount,$cr_amount,$supplier_id='',
-    $narration='',$invoice_no='',$date=null,$exchange_rate=0,$entry_id=0)
+    $narration='',$invoice_no='',$date=null,$user_id,$entry_id=0)
     {
         $data = array(
                 'supplier_id' => $supplier_id,
@@ -121,8 +121,9 @@ class M_suppliers extends CI_Model{
                 'invoice_no' => $invoice_no,
                 'entry_id' => $entry_id,
                 'narration' => $narration,
-                'exchange_rate'=>($exchange_rate == null ? 1 : $exchange_rate),
-                'company_id'=>$_SESSION['company_id'],
+                'user_id' => $user_id,
+                //'exchange_rate'=>($exchange_rate == null ? 1 : $exchange_rate),
+                //'company_id'=>$_SESSION['company_id'],
         
                 );
                 $this->db->insert('hjms_supplier_payments', $data);      
@@ -132,7 +133,7 @@ class M_suppliers extends CI_Model{
     function getMAXSupInvoiceNo($invoice_prefix)
     {   
         $this->db->order_by('id','desc');
-        $this->db->where('company_id', $_SESSION['company_id']);
+       // $this->db->where('company_id', $_SESSION['company_id']);
         $this->db->like('invoice_no',$invoice_prefix,'after');
         $query = $this->db->get('hjms_supplier_payments',1);
         return $query->row()->invoice_no;
