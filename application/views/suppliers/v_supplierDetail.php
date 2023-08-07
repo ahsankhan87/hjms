@@ -1,30 +1,20 @@
 <div class="row hidden-print">
     <div class="col-md-12">
         <!-- BEGIN SAMPLE FORM PORTLET-->
-        <div class="portlet">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class="fa fa-reorder"></i> Select From and To Dates
-                </div>
-                <div class="tools">
-                    <a href="" class="collapse"></a>
-                    <a href="#portlet-config" data-toggle="modal" class="config"></a>
-                    <a href="" class="reload"></a>
-                    <a href="" class="remove"></a>
-                </div>
-            </div>
-            <div class="portlet-body">
-                <form class="form-inline" method="post" action="<?php echo site_url('pos/Suppliers/supplierDetail/' . $supplier[0]['id']) ?>" role="form">
+        <div class="card">
+
+            <div class="card-body">
+                <form class="form-inline" method="post" action="<?php echo site_url('Suppliers/supplierDetail/' . $supplier[0]['id']) ?>" role="form">
                     <div class="form-group">
                         <label for="exampleInputEmail2">From Date</label>
-                        <input type="date" class="form-control" name="from_date" placeholder="From Date">
+                        <input type="date" class="form-control" name="from_date" value="<?php echo date('Y-m-d'); ?>" placeholder="From Date">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword2">To Date</label>
-                        <input type="date" class="form-control" name="to_date" placeholder="To Date">
+                        <input type="date" class="form-control" name="to_date" value="<?php echo date('Y-m-d'); ?>" placeholder="To Date">
                     </div>
 
-                    <button type="submit" class="btn btn-default">Submit</button>
+                    <button type="submit" class="btn btn-success">Search</button>
                 </form>
             </div>
         </div>
@@ -46,19 +36,13 @@
             echo '</div>';
         }
         ?>
-        <div class="portlet">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class="fa fa-reorder"></i><span id="print_title"><?php echo ucwords($supplier[0]['name']); ?></span>
-                </div>
-                <div class="tools">
-                    <a href="javascript:;" class="collapse"></a>
-                    <a href="#portlet-config" data-toggle="modal" class="config"></a>
-                    <a href="javascript:;" class="reload"></a>
-                    <a href="javascript:;" class="remove"></a>
-                </div>
+        <div class="card">
+            <div class="card-header">
+
+                <span id="print_title"><?php echo ucwords($supplier[0]['name']); ?></span>
+
             </div>
-            <div class="portlet-body">
+            <div class="card-body">
                 <!--BEGIN TABS-->
                 <ul class="nav nav-tabs">
                     <li class="active">
@@ -79,16 +63,21 @@
                             <!-- <a href="<?php echo site_url('Suppliers/emailSupplierLedger/' . $supplier[0]['id'] . '/' . $from_date . '/' . $to_date); ?>" onclick="return confirm('Are you sure you want to email ledger?')" class="btn btn-warning">Email Ledger</a> -->
                         </p>
 
-                        <table class="table table-bordered table-striped table-condensed flip-content" id="sample_customer">
-                            <thead class="flip-content">
+                        <table class="table table-bordered table-striped table-sm" id="table_1">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <th>Invoice #</th>
                                     <th>Date</th>
-                                    <th>Account</th>
-                                    <th>Dr Amount</th>
-                                    <th>Cr Amount</th>
-                                    <th>Balance</th>
-                                    <th width="20%">Narration</th>
+                                    <th>Invoice #</th>
+                                    <th>Passenger</th>
+                                    <th>Passport</th>
+                                    <th>PNR</th>
+                                    <th>Ticket No.</th>
+                                    <th>Visa No.</th>
+                                    <th>Narration</th>
+                                    <th>Ticket Cost</th>
+                                    <th>Visa Cost</th>
+                                    <th>Hotel Cost</th>
+                                    <th>Other Cost</th>
                                 </tr>
                             </thead>
 
@@ -98,94 +87,60 @@
                             $dr_amount = 0.00;
                             $cr_amount = 0.00;
                             $balance = 0.00;
-                            $exchange_rate = $supplier[0]['exchange_rate'] == 0 ? 1 : $supplier[0]['exchange_rate'];
 
                             //echo '<thead>';
                             echo '<tbody>';
-                            echo '<tr>';
-                            echo '<td></td>';
-                            echo '<td></td>';
 
-                            echo '<td>Opening Balance</td>';
-                            echo '<td>' . round(($supplier[0]['op_balance_dr'] / $exchange_rate), 2) . '</td>';
-                            echo '<td>' . round(($supplier[0]['op_balance_cr'] / $exchange_rate), 2) . '</td>';
-
-                            $dr_amount += $supplier[0]['op_balance_dr'] / $exchange_rate;
-                            $cr_amount += $supplier[0]['op_balance_cr'] / $exchange_rate;
-
-                            $balance = ($dr_amount - $cr_amount);
-
-                            // if($dr_amount > $cr_amount){
-                            //     $account = 'Dr'; 
-                            // }
-                            // elseif($dr_amount < $cr_amount)
-                            // {
-                            //     $account = 'Cr';
-                            // }
-                            // else{ $account = '';}
-
-                            echo '<td>' . round($balance, 2) . '</td>';
-                            echo '<td></td>';
-                            //echo '<td>'.anchor('accounts/C_ledgers/edit/'.$list['id'],'Edit'). ' | ';
-                            //echo  anchor('accounts/C_ledgers/delete/'.$list['id'],' Delete'). '</td>';
-                            echo '</tr>';
-                            //    echo '</thead>';
-
-
-                            if ($supplier_entries) {      //var_dump($supplier_entries);
+                            if ($supplier_entries) {      
+                                echo '<pre>';
+                                var_dump($supplier_entries);
+                                echo '</pre>';
+                                
                                 foreach ($supplier_entries as $key => $list) {
                                     echo '<tr>';
                                     // echo '<td>'.$sno++.'</td>';
-                                    echo '<td>';
-                                    $inv_prefix = substr($list['invoice_no'], 0, 1);
-                                    if ($inv_prefix === 'R') {
-                                        echo '<a href="' . site_url('trans/C_receivings/receipt/' . $list['invoice_no']) . '" title="Print Invoice" >' . $list['invoice_no'] . '</a>';
-                                    } else {
-                                        echo $list['invoice_no'];
-                                    }
-                                    echo '</td>';
                                     echo '<td>' . $list['date'] . '</td>';
-
-                                    //$account_name = $this->M_groups->get_groups($list['dueTo_acc_code'],$_SESSION['company_id']);
                                     echo '<td>';
-                                    //($langs == 'en' ? @$account_name[0]['title'] : @$account_name[0]['title_ur']);
+                                    // $inv_prefix = substr($list['invoice_no'], 0, 1);
+                                    // if ($inv_prefix === 'R') {
+                                    //     echo '<a href="' . site_url('trans/C_receivings/receipt/' . $list['invoice_no']) . '" title="Print Invoice" >' . $list['invoice_no'] . '</a>';
+                                    // } else {
+                                    //     echo $list['invoice_no'];
+                                    // }
+                                    echo $list['invoice_no'];
+
                                     echo '</td>';
-                                    echo '<td>' . round($list['debit'], 2) . '</td>';
-                                    echo '<td>' . round($list['credit'], 2) . '</td>';
-
-                                    $dr_amount += $list['debit'];
-                                    $cr_amount += $list['credit'];
-
-                                    $balance = ($cr_amount - $dr_amount);
-
-                                    //if($dr_amount > $cr_amount){
-                                    //                                    $account = 'Dr'; 
-                                    //                                }
-                                    //                                elseif($dr_amount < $cr_amount)
-                                    //                                {
-                                    //                                    $account = 'Cr';
-                                    //                                }
-                                    //                                else{ $account = '';}
-                                    //                                
-                                    echo '<td>' . round($balance, 2) . '</td>';
+                                        $passenger =  $this->M_passengers->get_passengers($list['item_id']);
+                                    echo '<td>';
+                                            echo $passenger[0]['first_name'];
+                                    echo '</td>';
+                                    echo '<td>';
+                                        echo $passenger[0]['passport_no'];
+                                    
+                                    echo '<td>';
+                                        echo $passenger[0]['pnr_code'];
+                                    echo '</td>';
+                                    echo '<td>';
+                                        echo $list['ticket_no'];
+                                    echo '</td>';
+                                    echo '<td>';
+                                        echo $list['visa_no'];
+                                    echo '</td>';
                                     echo '<td>' . $list['narration'] . '</td>';
+                                    echo '<td>' . round($list['credit'], 2) . '</td>';
+                                    echo '<td>' . round($list['credit'], 2) . '</td>';
+                                    echo '<td>' . round($list['credit'], 2) . '</td>';
+                                    echo '<td>' . round($list['credit'], 2) . '</td>';
+                                    
                                     //echo '<td>'.anchor('accounts/C_ledgers/edit/'.$list['id'],'Edit'). ' | ';
                                     //echo  anchor('accounts/C_ledgers/delete/'.$list['id'],' Delete'). '</td>';
                                     echo '</tr>';
                                 }
                             }
                             echo '</tbody>';
-                            echo '<tfoot>';
-                            echo '<tr><th></th><th></th>';
-                            echo '<th>Total</th>';
-                            echo '<th>' . number_format($dr_amount, 2) . '</th>';
-                            echo '<th>' . number_format($cr_amount, 2) . '</th>';
-                            echo '<th>' . number_format($balance, 2) . '</th>';
-                            echo '<th></th></tr>';
-                            echo '</tfoot>';
-                            echo '</table>';
-
+                            
                             ?>
+                        </table>
                     </div>
 
                     <div class="tab-pane" id="tab_1_2">

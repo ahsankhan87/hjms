@@ -79,13 +79,32 @@ class M_suppliers extends CI_Model{
         return $data;
     }
     
-    
     public function get_supplier_Entries($supplier_id,$fy_start_date,$fy_end_date)
     {
         $this->db->group_by('sp.id');
-        //$this->db->join('acc_groups g','g.account_code=sp.account_code');
+        $this->db->select('sp.*, rt.*');
+        $this->db->join('hjms_receivings_items rt','sp.invoice_no=rt.invoice_no','left');
+        //$this->db->join('hjms_passengers p','p.id=rt.item_id','left');
+
+        $this->db->where('sp.supplier_id', $supplier_id);
+        //$this->db->where('rt.visa_supplier_id', $supplier_id);
+        //$this->db->where('g.company_id', $_SESSION['company_id']);
+        $this->db->where('sp.date >=', $fy_start_date);
+        $this->db->where('sp.date <=', $fy_end_date);
+
+        $query = $this->db->get('hjms_supplier_payments sp');
+        $data = $query->result_array();
+        
+        return $data;
+    }
+    
+    public function get_supplier_purchases($supplier_id,$fy_start_date,$fy_end_date)
+    {
+        // $this->db->group_by('sp.id');
+        $this->db->select('rt.*');
+        $this->db->join('hjms_receivings_items rt','sp.invoice_no=rt.invoice_no','left');
         $this->db->select('sp.*')->from('hjms_supplier_payments sp')->where('sp.supplier_id', $supplier_id);
-        // $this->db->where('sp.company_id', $_SESSION['company_id']);
+        // $this->db->where('rt.supplier_id', $supplier_id);
         //$this->db->where('g.company_id', $_SESSION['company_id']);
         $this->db->where('date >=', $fy_start_date);
         $this->db->where('date <=', $fy_end_date);
@@ -95,7 +114,7 @@ class M_suppliers extends CI_Model{
         
         return $data;
     }
-    
+
     public function get_supplier_total_balance($supplier_id,$fy_start_date,$fy_end_date)
     {
         $this->db->select('SUM(debit) as dr_balance, SUM(credit) as cr_balance')->from('hjms_supplier_payments sp')->where('sp.supplier_id', $supplier_id);

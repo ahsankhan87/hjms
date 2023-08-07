@@ -125,6 +125,28 @@ class M_receivings extends CI_Model{
        return $query->result_array();
        
     }
+    
+    function get_receiving_items_by_supplier($supplier_id)//for receipt
+    {
+       $this->db->select('r.receiving_date, rt.*');
+       $this->db->join('hjms_receivings_items rt','r.invoice_no=rt.invoice_no','left');
+        
+       $this->db->where(array('rt.visa_supplier_id'=>$supplier_id));
+       $query = $this->db->get('hjms_receivings as r');
+       return $query->result_array();
+       
+    }
+
+    function get_ticket_cost_by_supplier($supplier_id,$invoice_no)//for receipt
+    {
+       $this->db->select('rt.ticket_cost,rt.ticket_no,rt.ticket_pnr');
+       //$this->db->join('hjms_receivings_items rt','r.invoice_no=rt.invoice_no','left');
+        
+       $this->db->where(array('rt.ticket_supplier_id'=>$supplier_id,'rt.invoice_no'=>$invoice_no));
+       $query = $this->db->get('hjms_receivings as r');
+       return $query->result_array();
+       
+    }
 
     function get_receiving_inv_payment($invoice_no)
     {

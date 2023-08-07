@@ -210,6 +210,7 @@ class Purchases extends MY_Controller
                                 'debit' => 0,
                                 'credit' => $visa_cost,
                                 'narration' => 'Visa Cost '.$narration,
+                                'status' => 'visa_cost',
                                
                             );
                             $this->db->insert('hjms_supplier_payments', $data);
@@ -225,7 +226,7 @@ class Purchases extends MY_Controller
                                 'debit' => 0,
                                 'credit' => $ticket_cost,
                                 'narration' => 'Ticket Cost '.$narration,
-                               
+                                'status' => 'ticket_cost',
                             );
                             $this->db->insert('hjms_supplier_payments', $data);
                         }
@@ -240,7 +241,7 @@ class Purchases extends MY_Controller
                                 'debit' => 0,
                                 'credit' => $hotel_cost,
                                 'narration' => 'Hotel Cost '.$narration,
-                               
+                                'status' => 'hotel_cost',
                             );
                             $this->db->insert('hjms_supplier_payments', $data);
                         }

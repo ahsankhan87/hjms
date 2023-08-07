@@ -629,3 +629,4 @@ CREATE TABLE `hjms_supplier_payments` (
 ) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
 
 ALTER TABLE `hjms_receivings_items` ADD `ticket_pnr` VARCHAR(100) NULL AFTER `hotel_supplier_id`, ADD `ticket_no` VARCHAR(100) NULL AFTER `ticket_pnr`, ADD `paid` DECIMAL(30,2) NULL AFTER `ticket_no`;
+ALTER TABLE `hjms_supplier_payments` ADD `status` VARCHAR(20) NULL AFTER `user_id`;
