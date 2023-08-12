@@ -36,7 +36,7 @@
                             <th>Inv #</th>
                             <th><?php echo 'date'; ?></th>
                             <!-- <th><?php echo 'supplier'; ?> Inv #</th>-->
-                            <!-- <th><?php echo 'supplier'; ?></th> -->
+                            <th><?php echo 'supplier'; ?></th>
                             <!-- <th><?php echo 'account'; ?></th> -->
                             <th class="text-right"><?php echo 'amount'; ?></th>
                             <!-- <th class="text-right"><?php echo 'taxes'; ?></th> -->
@@ -60,8 +60,8 @@
                             echo '<td>'.$list['invoice_no'].'</td>';
                             echo '<td>'.date('d-m-Y',strtotime($list['receiving_date'])).'</td>';
                             //echo '<td><img src="'.base_url('images/supplier-images/thumbs/'.$list['supplier_image']).'" width="40" height="40"/></td>';
-                            // $supplier_name = $this->M_suppliers->get_supplierName($list['supplier_id']);
-                            // echo '<td>'.@$supplier_name.'</td>';
+                            $supplier_name = $this->M_suppliers->get_supplierName($list['supplier_id']);
+                            echo '<td>'.@$supplier_name.'</td>';
                             //    echo '<td>'.$list['supplier_invoice_no'].'</td>';
                             //    echo '<td>'.@$this->M_employees->get_empName($list['employee_id']).'</td>';
                             echo '<td class="text-right">'. number_format($total,2). '</td>';

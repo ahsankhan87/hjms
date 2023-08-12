@@ -42,9 +42,10 @@
                                     <tr>
                                         <th>#</th>
                                         <th><?php echo 'Pessanger'; ?></th>
-                                        <th><?php echo 'Visa Supplier'; ?></th>
-                                        <th><?php echo 'Ticket Supplier'; ?></th>
-                                        <th><?php echo 'Hotel Supplier'; ?></th>
+                                        <th><?php echo 'Supplier'; ?></th>
+                                        <th><?php echo 'Visa'; ?></th>
+                                        <th><?php echo 'Ticket'; ?></th>
+                                        <th><?php echo 'Hotel'; ?></th>
                                         
                                         <th><?php echo 'Other' . ' ' . 'Price'; ?></th>
                                         <!-- <th><?php echo 'Amount Paid'; ?></th> -->
@@ -206,21 +207,23 @@
                     //'<td width="25%"><select  class="form-control account_id" id="accountid_' + counter + '" name="account_id[]"></select></td>' +
                     '<td width="20%"><input  class="form-control pnr" id="pnr_' + counter + '" name="pnr[]" /></td>' +
                     '<td width="10%">'+
-                    '<select  class="form-control visa_supplier_id select2" id="visasupplierid_' + counter + '" name="visa_supplier_id[]"></select>' +
+                    '<select  class="form-control supplier_id select2" id="supplierid_' + counter + '" name="supplier_id[]"></select>' +
+                    '</td>'+
+                    '<td>'+
                     'Price:<input type="number" class="form-control visa_cost" id="visacost_' + counter + '" name="visa_cost[]" step="0.0001" autocomplete="off">' +
                     'Visa No.<input  class="form-control visa_no" id="visano_' + counter + '" name="visa_no[]" />' +
                     '</td>'+
                     //'<td class="text-right" width="10%"><input type="number" min="1" class="form-control qty" id="qty_' + counter + '" name="qty[]" value="1" autocomplete="off"></td>' +
                     
                     '<td width="10%">'+
-                    '<select  class="form-control ticket_supplier_id select2" id="ticketsupplierid_' + counter + '" name="ticket_supplier_id[]"></select>' +
+                    // '<select  class="form-control ticket_supplier_id select2" id="ticketsupplierid_' + counter + '" name="ticket_supplier_id[]"></select>' +
                     'Price:<input type="number" class="form-control ticket_cost" id="ticketcost_' + counter + '" name="ticket_cost[]" step="0.0001" autocomplete="off">' +
                     'Tkt No.<input type="text" class="form-control ticket_no" id="ticketno_' + counter + '" name="ticket_no[]">' +
                     'Tck Pnr:<input type="text" class="form-control ticket_pnr" id="ticketpnr_' + counter + '" name="ticket_pnr[]">' +
                     '</td>'+
                     
                     '<td width="10%">'+
-                    '<select  class="form-control hotel_supplier_id select2" id="hotelsupplierid_' + counter + '" name="hotel_supplier_id[]"></select>' +
+                    // '<select  class="form-control hotel_supplier_id select2" id="hotelsupplierid_' + counter + '" name="hotel_supplier_id[]"></select>' +
                     'Price:<input type="number" class="form-control hotel_cost" id="hotelcost_' + counter + '" name="hotel_cost[]" step="0.0001" autocomplete="off">' +
                     '</td>'+
                     
@@ -405,10 +408,8 @@
                         });
 
                         // $('#supplier_id').html(supplier_ddl);
-                        $('#visasupplierid_' + index).append(supplier_ddl);
-                        $('#ticketsupplierid_' + index).append(supplier_ddl);
-                        $('#hotelsupplierid_' + index).append(supplier_ddl);
-
+                        $('#supplierid_' + index).append(supplier_ddl);
+                        
                     },
                     error: function(xhr, ajaxOptions, thrownError) {
                         console.log(xhr.status);
@@ -566,21 +567,23 @@
 
                                 '<td width="20%"><input  class="form-control pnr" value="' + value.first_name + '" id="pnr_' + counter + '" name="pnr[]" /></td>' +
                                 '<td width="10%">'+
-                                '<select  class="form-control visa_supplier_id select2" id="visasupplierid_' + counter + '" name="visa_supplier_id[]"></select>' +
+                                '<select  class="form-control supplier_id select2" id="supplierid_' + counter + '" name="supplier_id[]"></select>' +
+                                '</td>'+
+                                '<td>'+
                                 'Price:<input type="number" class="form-control visa_cost" id="visacost_' + counter + '" name="visa_cost[]" step="0.0001" autocomplete="off">' +
                                 'Visa No.<input  class="form-control visa_no" id="visano_' + counter + '" name="visa_no[]" />' +
                                 '</td>'+
                                 //'<td class="text-right" width="10%"><input type="number" min="1" class="form-control qty" id="qty_' + counter + '" name="qty[]" value="1" autocomplete="off"></td>' +
                                 
                                 '<td width="10%">'+
-                                '<select  class="form-control ticket_supplier_id select2" id="ticketsupplierid_' + counter + '" name="ticket_supplier_id[]"></select>' +
+                                // '<select  class="form-control ticket_supplier_id select2" id="ticketsupplierid_' + counter + '" name="ticket_supplier_id[]"></select>' +
                                 'Price:<input type="number" class="form-control ticket_cost" id="ticketcost_' + counter + '" name="ticket_cost[]" step="0.0001" autocomplete="off">' +
                                 'Tkt No.<input type="text" class="form-control ticket_no" id="ticketno_' + counter + '" name="ticket_no[]">' +
                                 'Tck Pnr:<input type="text" class="form-control ticket_pnr" id="ticketpnr_' + counter + '" name="ticket_pnr[]">' +
                                 '</td>'+
                                 
                                 '<td width="10%">'+
-                                '<select  class="form-control hotel_supplier_id select2" id="hotelsupplierid_' + counter + '" name="hotel_supplier_id[]"></select>' +
+                                // '<select  class="form-control hotel_supplier_id select2" id="hotelsupplierid_' + counter + '" name="hotel_supplier_id[]"></select>' +
                                 'Price:<input type="number" class="form-control hotel_cost" id="hotelcost_' + counter + '" name="hotel_cost[]" step="0.0001" autocomplete="off">' +
                                 '</td>'+
                                 

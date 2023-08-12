@@ -630,3 +630,7 @@ CREATE TABLE `hjms_supplier_payments` (
 
 ALTER TABLE `hjms_receivings_items` ADD `ticket_pnr` VARCHAR(100) NULL AFTER `hotel_supplier_id`, ADD `ticket_no` VARCHAR(100) NULL AFTER `ticket_pnr`, ADD `paid` DECIMAL(30,2) NULL AFTER `ticket_no`;
 ALTER TABLE `hjms_supplier_payments` ADD `status` VARCHAR(20) NULL AFTER `user_id`;
+
+ALTER TABLE `hjms_receivings_items` DROP `visa_supplier_id`, DROP `ticket_supplier_id`, DROP `hotel_supplier_id`;
+
+ALTER TABLE `hjms_receivings_items` ADD `supplier_id` INT(11) NULL AFTER `paid`;

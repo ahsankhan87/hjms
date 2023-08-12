@@ -103,13 +103,12 @@ class Purchases extends MY_Controller
                 // $tax_acc_code = $this->input->post("tax_acc_code");
                 // $tax_rate = $this->input->post("tax_rate");
                 // $tax_id = $this->input->post('tax_id');
-
+                
                 //if tax amount is checked or 1 then tax will be dedected otherwise not deducted from total amount
                 //total net amount 
                 $net_total =  $this->input->post("net_total");
 
                 //////
-
                 $data = array(
                     'invoice_no' => $new_invoice_no,
                     'employee_id' => $emp_id,
@@ -124,6 +123,7 @@ class Purchases extends MY_Controller
                     'due_date' => $due_date,
                     'business_address' => $business_address,
                     // 'tax_rate' => $tax_rate,
+                    //'supplier_id' => $supplier_id,
                     // 'tax_id' => $tax_id,
                 );
                 $this->db->insert('hjms_receivings', $data);
@@ -141,11 +141,9 @@ class Purchases extends MY_Controller
                         $visa_cost = $this->input->post('visa_cost')[$key];
                         $visa_no = $this->input->post('visa_no')[$key];
                         $description = $this->input->post('description')[$key];
-                        $visa_supplier_id = $this->input->post("visa_supplier_id")[$key];
-                        $ticket_supplier_id = $this->input->post("ticket_supplier_id")[$key];
-                        $hotel_supplier_id = $this->input->post("hotel_supplier_id")[$key];
                         $ticket_pnr = $this->input->post("ticket_pnr")[$key];
                         $ticket_no = $this->input->post("ticket_no")[$key];
+                        $supplier_id = $this->input->post('supplier_id')[$key];
                         //$amount_paid = $this->input->post("amount_paid")[$key];
                         // $total_amount = (float)($qty * $visa_cost);
 
@@ -163,11 +161,11 @@ class Purchases extends MY_Controller
                             'mofa_no' => $this->input->post('mofa_no', true)[$key],
                             'moi_no' => $this->input->post('moi_no', true)[$key],
                             "gender" => $this->input->post('gender', true)[$key],
-                             'dob' => $this->input->post('dob', true)[$key],
-                             'mehram' => $this->input->post('mehram', true)[$key],
-                             'relation' => $this->input->post('relation', true)[$key],
+                            'dob' => $this->input->post('dob', true)[$key],
+                            'mehram' => $this->input->post('mehram', true)[$key],
+                            'relation' => $this->input->post('relation', true)[$key],
                             //  'customer_id' => 0,//$this->input->post('customer_id', true),
-                            'supplier_id' => $visa_supplier_id,
+                            'supplier_id' => $supplier_id,
                             'user_id' => $user_id,
                             ////
                         );
@@ -188,64 +186,32 @@ class Purchases extends MY_Controller
                             'other_cost' => ($register_mode == 'receive' ? $other_cost : -$other_cost), //actually its avg cost comming from sale from
                             'description' => $description,
                             'visa_no' => $visa_no,
-                            'visa_supplier_id' => $visa_supplier_id,
-                            'ticket_supplier_id' => $ticket_supplier_id,
-                            'hotel_supplier_id' => $hotel_supplier_id,
                             'ticket_pnr' => $ticket_pnr,
                             'ticket_no' => $ticket_no,
+                            'supplier_id' => $supplier_id,
                             //'paid' => $amount_paid,
 
                         );
 
                         $this->db->insert('hjms_receivings_items', $data);
 
-                        if($visa_supplier_id != 0 && $visa_supplier_id != '')
-                        {
-                            $data = array(
-                                'invoice_no' => $new_invoice_no,
-                                'supplier_id' => $visa_supplier_id,
-                                'user_id' => $user_id,
-                                'account_code' => '', //account_id,
-                                'date' => $sale_date,
-                                'debit' => 0,
-                                'credit' => $visa_cost,
-                                'narration' => 'Visa Cost '.$narration,
-                                'status' => 'visa_cost',
-                               
-                            );
-                            $this->db->insert('hjms_supplier_payments', $data);
-                        }
-                        if($ticket_supplier_id != 0 && $ticket_supplier_id !='')
-                        {
-                            $data = array(
-                                'invoice_no' => $new_invoice_no,
-                                'supplier_id' => $ticket_supplier_id,
-                                'user_id' => $user_id,
-                                'account_code' => '', //account_id,
-                                'date' => $sale_date,
-                                'debit' => 0,
-                                'credit' => $ticket_cost,
-                                'narration' => 'Ticket Cost '.$narration,
-                                'status' => 'ticket_cost',
-                            );
-                            $this->db->insert('hjms_supplier_payments', $data);
-                        }
-                        if($hotel_supplier_id != 0 && $hotel_supplier_id != '')
-                        {
-                            $data = array(
-                                'invoice_no' => $new_invoice_no,
-                                'supplier_id' => $hotel_supplier_id,
-                                'user_id' => $user_id,
-                                'account_code' => '', //account_id,
-                                'date' => $sale_date,
-                                'debit' => 0,
-                                'credit' => $hotel_cost,
-                                'narration' => 'Hotel Cost '.$narration,
-                                'status' => 'hotel_cost',
-                            );
-                            $this->db->insert('hjms_supplier_payments', $data);
-                        }
-                       
+                        ////// SUPPLIER PAYMENT DETAIL
+                        $data = array(
+                            'invoice_no' => $new_invoice_no,
+                            'supplier_id' => $supplier_id,
+                            'user_id' => $user_id,
+                            'account_code' => '', //account_id,
+                            'date' => $sale_date,
+                            'debit' => 0,
+                            'credit' => $visa_cost,
+                            'narration' => 'Visa Cost ' . $narration,
+                            'status' => 'visa_cost',
+
+                        );
+                        $this->db->insert('hjms_supplier_payments', $data);
+                        //////////
+
+
                     }
                 }
 
