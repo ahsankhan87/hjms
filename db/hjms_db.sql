@@ -634,3 +634,4 @@ ALTER TABLE `hjms_supplier_payments` ADD `status` VARCHAR(20) NULL AFTER `user_i
 ALTER TABLE `hjms_receivings_items` DROP `visa_supplier_id`, DROP `ticket_supplier_id`, DROP `hotel_supplier_id`;
 
 ALTER TABLE `hjms_receivings_items` ADD `supplier_id` INT(11) NULL AFTER `paid`;
+ALTER TABLE `hjms_receivings_items` ADD `date` DATE NULL AFTER `invoice_no`;

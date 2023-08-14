@@ -81,33 +81,34 @@ class M_suppliers extends CI_Model{
     
     public function get_supplier_Entries($supplier_id,$fy_start_date,$fy_end_date)
     {
-        $this->db->group_by('sp.id');
-        $this->db->select('sp.*, rt.*');
-        $this->db->join('hjms_receivings_items rt','sp.invoice_no=rt.invoice_no','left');
+        // $this->db->group_by('rt.id');
+        $this->db->select('rt.*');
+        // $this->db->join('hjms_supplier_payments sp','sp.invoice_no=rt.invoice_no','left');
         //$this->db->join('hjms_passengers p','p.id=rt.item_id','left');
 
-        $this->db->where('sp.supplier_id', $supplier_id);
+        $this->db->where('rt.supplier_id', $supplier_id);
         //$this->db->where('rt.visa_supplier_id', $supplier_id);
         //$this->db->where('g.company_id', $_SESSION['company_id']);
-        $this->db->where('sp.date >=', $fy_start_date);
-        $this->db->where('sp.date <=', $fy_end_date);
+        $this->db->where('rt.date >=', $fy_start_date);
+        $this->db->where('rt.date <=', $fy_end_date);
 
-        $query = $this->db->get('hjms_supplier_payments sp');
+        $query = $this->db->get('hjms_receivings_items rt');
         $data = $query->result_array();
         
         return $data;
     }
-    
-    public function get_supplier_purchases($supplier_id,$fy_start_date,$fy_end_date)
+   
+    public function get_supplier_payments($supplier_id,$fy_start_date,$fy_end_date)
     {
         // $this->db->group_by('sp.id');
-        $this->db->select('rt.*');
-        $this->db->join('hjms_receivings_items rt','sp.invoice_no=rt.invoice_no','left');
+        $this->db->select('sp.*');
+        //$this->db->join('hjms_receivings_items rt','sp.invoice_no=rt.invoice_no','left');
         $this->db->select('sp.*')->from('hjms_supplier_payments sp')->where('sp.supplier_id', $supplier_id);
-        // $this->db->where('rt.supplier_id', $supplier_id);
-        //$this->db->where('g.company_id', $_SESSION['company_id']);
-        $this->db->where('date >=', $fy_start_date);
-        $this->db->where('date <=', $fy_end_date);
+        
+        $this->db->where('sp.debit > 0');
+        
+        $this->db->where('sp.date >=', $fy_start_date);
+        $this->db->where('sp.date <=', $fy_end_date);
 
         $query = $this->db->get();
         $data = $query->result_array();

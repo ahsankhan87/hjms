@@ -189,6 +189,7 @@ class Purchases extends MY_Controller
                             'ticket_pnr' => $ticket_pnr,
                             'ticket_no' => $ticket_no,
                             'supplier_id' => $supplier_id,
+                            'date' => $sale_date,
                             //'paid' => $amount_paid,
 
                         );

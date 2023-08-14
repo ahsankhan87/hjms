@@ -221,6 +221,7 @@ class Suppliers extends MY_Controller
         $data['main_small'] = '<br />' . date('d-m-Y', strtotime($data['from_date'])) . ' To ' . date('d-m-Y', strtotime($data['to_date']));
 
         $data['supplier'] = $this->M_suppliers->get_suppliers($supplier_id);
+        $data['supplier_payments'] = $this->M_suppliers->get_supplier_payments($supplier_id,FY_START_DATE,FY_END_DATE);
         $data['supplier_entries']= $this->M_suppliers->get_supplier_Entries($supplier_id,FY_START_DATE,FY_END_DATE);
 
         $this->load->view('templates/header', $data);
